@@ -4,13 +4,14 @@ project:
 
 website:
   title: "Gabriel Fuentes"
+  lang: es
   navbar:
     right:
       - about.qmd
       - icon: github
-        href: https://github.com/
+        href: https://github.com/gafnts
       - icon: twitter
-        href: https://twitter.com
+        href: https://twitter.com/gafnts
 format:
   html:
     theme: cosmo
