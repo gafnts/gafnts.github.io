@@ -6,17 +6,21 @@ website:
   title: "Gabriel Fuentes"
   lang: es
   navbar:
+    left:
+      - text: Sobre mí
+        href: about.qmd
+      - text: Blog
+        href: index.qmd
     right:
-      - about.qmd
-      - icon: github
-        href: https://github.com/gafnts
       - icon: twitter
         href: https://twitter.com/gafnts
+      - icon: github
+        href: https://github.com/gafnts
 format:
   html:
     theme: 
-      light: flatly
       dark: dark.scss
+      light: flatly
     css: styles.css
 
 editor: visual
