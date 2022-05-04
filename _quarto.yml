@@ -18,9 +18,7 @@ website:
         href: https://github.com/gafnts
 format:
   html:
-    theme: 
-      dark: dark.scss
-      light: flatly
+    theme: dark.scss
     css: styles.css
 
 editor: visual
