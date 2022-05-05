@@ -62,7 +62,7 @@
       const options = {
         valueNames: ['listing-image','listing-date','listing-title','listing-reading-time','listing-categories','listing-description',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
         
-        searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description"],
+        searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description","listing-categories"],
       };
 
       window['quarto-listings'] = window['quarto-listings'] || {};
@@ -119,16 +119,18 @@
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        
+    <h5 class="quarto-listing-category-title">Categorías</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">Todas <span class="quarto-category-count">(2)</span></div><div class="category" data-category="Comercio internacional">Comercio internacional <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Econometría">Econometría <span class="quarto-category-count">(2)</span></div><div class="category" data-category="Series de tiempo">Series de tiempo <span class="quarto-category-count">(1)</span></div></div></div>
 <!-- main -->
-<main class="content column-page" id="quarto-document-content">
+<main class="content column-page-left" id="quarto-document-content">
 
 
 
 
 <div class="quarto-listing quarto-listing-container-default" id="listing-listing">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="comercio internacional,econometría" data-listing-date-sort="1651730400000" data-listing-file-modified-sort="1651773023775" data-listing-reading-time-sort="0.06">
+<div class="quarto-post image-right" data-index="0" data-categories="Comercio internacional,Econometría" data-listing-date-sort="1651730400000" data-listing-file-modified-sort="1651780488016" data-listing-reading-time-sort="1.07">
 <div class="thumbnail">
 <p><a href="./posts/Modelos-gravitacionales-y-la-nueva-economía-geográfica/index.html"> <img src="./posts/Modelos-gravitacionales-y-la-nueva-economía-geográfica/image.jpg" class="thumnail-image"> </a></p>
 </div>
@@ -142,11 +144,11 @@ Modelos gravitacionales y la nueva economía geográfica
 </div>
 </a>
 <div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('comercio internacional'); return false;">
-comercio internacional
+<div class="listing-category" onclick="window.quartoListingCategory('Comercio internacional'); return false;">
+Comercio internacional
 </div>
-<div class="listing-category" onclick="window.quartoListingCategory('econometría'); return false;">
-econometría
+<div class="listing-category" onclick="window.quartoListingCategory('Econometría'); return false;">
+Econometría
 </div>
 </div>
 <a href="./posts/Modelos-gravitacionales-y-la-nueva-economía-geográfica/index.html">
@@ -161,12 +163,12 @@ econometría
 5 may 2022
 </div>
 <div class="listing-reading-time">
-0 minutos
+1 minutos
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="1" data-categories="econometría,series de tiempo" data-listing-date-sort="1651644000000" data-listing-file-modified-sort="1651698056622" data-listing-reading-time-sort="0.085">
+<div class="quarto-post image-right" data-index="1" data-categories="Econometría,Series de tiempo" data-listing-date-sort="1651644000000" data-listing-file-modified-sort="1651773316087" data-listing-reading-time-sort="0.085">
 <div class="thumbnail">
 <p><a href="./posts/Pronósticos-de-inflación-con-modelos-de-aprendizaje-automático/index.html"> <img src="./posts/Pronósticos-de-inflación-con-modelos-de-aprendizaje-automático/image.jpg" class="thumnail-image"> </a></p>
 </div>
@@ -180,11 +182,11 @@ Pronósticos de inflación con modelos de aprendizaje automático
 </div>
 </a>
 <div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('econometría'); return false;">
-econometría
+<div class="listing-category" onclick="window.quartoListingCategory('Econometría'); return false;">
+Econometría
 </div>
-<div class="listing-category" onclick="window.quartoListingCategory('series de tiempo'); return false;">
-series de tiempo
+<div class="listing-category" onclick="window.quartoListingCategory('Series de tiempo'); return false;">
+Series de tiempo
 </div>
 </div>
 <a href="./posts/Pronósticos-de-inflación-con-modelos-de-aprendizaje-automático/index.html">

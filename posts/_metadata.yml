@@ -6,3 +6,27 @@ freeze: true
 
 # Enable banner style title blocks
 title-block-banner: true
+
+# Default author
+author:
+  - name: Gabriel Fuentes
+  
+# Default language
+lang: es
+  
+# Default defaults
+format:
+  html:
+    toc: true
+    toc-location: left
+    smooth-scroll: true
+    cap-location: margin
+  
+# Comment section  
+comments:
+  utterances:
+    repo: gafnts/gafnts.github.io
+    theme: github-dark
+
+# Default fields for citation
+csl: apa.csl

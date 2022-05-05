@@ -4,6 +4,7 @@ project:
 
 website:
   title: "Gabriel Fuentes"
+  site-url: https://gafnts.github.io/
   lang: es
   navbar:
     left:
@@ -16,10 +17,11 @@ website:
         href: https://twitter.com/gafnts
       - icon: github
         href: https://github.com/gafnts
+
 format:
   html:
     theme: dark.scss
     css: styles.css
-
+      
 editor: visual
 
