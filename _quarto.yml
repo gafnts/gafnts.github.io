@@ -17,7 +17,17 @@ website:
         href: https://twitter.com/gafnts
       - icon: github
         href: https://github.com/gafnts
-
+  page-footer: 
+      left: "© Gabriel Fuentes (2022)" 
+      right: 
+        - icon: github
+          href: https://github.com/gafnts
+        - icon: twitter 
+          href: https://twitter.com/gants
+      border: true
+      background: dark
+      
+            
 format:
   html:
     theme: dark.scss
