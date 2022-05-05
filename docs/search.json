@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "Gabriel Fuentes",
     "section": "",
-    "text": "econometría\n\n\nseries de tiempo\n\n\n\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus molestie eros tincidunt, dictum enim et, gravida ante. Aenean semper nulla non ligula malesuada elementum. Morbi quis mollis lorem. Donec luctus elit arcu, ut fringilla augue fringilla quis. Sed viverra dui non dignissim convallis.\n\n\n\n\n\n\n4 may 2022\n\n\n0 minutos\n\n\n\n\n\n\n  \n\n\n\n\n\n\n\n\n\n\nnews\n\n\n\n\nThis is the first post in a Quarto blog. Welcome!\n\n\n\n\n\n\n1 may 2022\n\n\n0 minutos\n\n\n\n\n\n\nNo hay resultados"
+    "text": "comercio internacional\n\n\neconometría\n\n\n\n\n¿Qué dice la Nueva Economía Geográfica acerca de los rendimientos crecientes, competencia imperfecta y flujos comerciales a nivel internacional?\n\n\n\n\n\n\n5 may 2022\n\n\n0 minutos\n\n\n\n\n\n\n  \n\n\n\n\n\n\n\n\n\n\neconometría\n\n\nseries de tiempo\n\n\n\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus molestie eros tincidunt, dictum enim et, gravida ante. Aenean semper nulla non ligula malesuada elementum. Morbi quis mollis lorem. Donec luctus elit arcu, ut fringilla augue fringilla quis. Sed viverra dui non dignissim convallis.\n\n\n\n\n\n\n4 may 2022\n\n\n0 minutos\n\n\n\n\n\n\nNo hay resultados"
   },
   {
     "objectID": "posts/post-with-code/index.html",
@@ -54,5 +54,12 @@
     "title": "Pronósticos de inflación con modelos de aprendizaje automático",
     "section": "",
     "text": "1 + 1\n\n[1] 2"
+  },
+  {
+    "objectID": "posts/Modelos-gravitacionales-y-la-nueva-economía-geográfica/index.html",
+    "href": "posts/Modelos-gravitacionales-y-la-nueva-economía-geográfica/index.html",
+    "title": "Modelos gravitacionales y la nueva economía geográfica",
+    "section": "",
+    "text": "mtcars %>% \n  ggplot(aes(cyl, mpg, group = cyl)) +\n  geom_boxplot()"
   }
 ]

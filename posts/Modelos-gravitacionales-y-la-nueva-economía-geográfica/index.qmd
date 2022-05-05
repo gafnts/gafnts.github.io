@@ -1,0 +1,19 @@
+---
+title: "Modelos gravitacionales y la nueva economía geográfica"
+author: "Gabriel Fuentes"
+lang: es
+date: "5/5/2022"
+categories: [comercio internacional, econometría]
+image: "image.jpg"
+description: ¿Qué dice la Nueva Economía Geográfica acerca de los rendimientos crecientes, competencia imperfecta y flujos comerciales a nivel internacional?
+---
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+mtcars %>% 
+  ggplot(aes(cyl, mpg, group = cyl)) +
+  geom_boxplot()
+```
