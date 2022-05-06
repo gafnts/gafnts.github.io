@@ -1,7 +1,7 @@
 {
-  "hash": "9eb459557cba9b838ba1224a190917b9",
+  "hash": "55f85eb5c93111b14de2d1709f6ab116",
   "result": {
-    "markdown": "---\ntitle: \"Pronósticos de inflación con modelos de aprendizaje automático\"\nauthor: \"Gabriel Fuentes\"\ndate: \"5/4/2022\"\ncategories: [econometría, series de tiempo]\nimage: \"image.jpg\"\ndescription: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus molestie eros tincidunt, dictum enim et, gravida ante. Aenean semper nulla non ligula malesuada elementum. Morbi quis mollis lorem. Donec luctus elit arcu, ut fringilla augue fringilla quis. Sed viverra dui non dignissim convallis. \n---\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus molestie eros tincidunt, dictum enim et, gravida ante.\n\n::: {.cell}\n\n```{.r .cell-code}\n1 + 1\n```\n\n::: {.cell-output-stdout}\n```\n[1] 2\n```\n:::\n:::",
+    "markdown": "---\ntitle: \"Pronósticos de inflación con modelos de aprendizaje automático\"\nauthor: \"Gabriel Fuentes\"\nlang: es\ndate: \"5/4/2022\"\ncategories: [Econometría, Series de tiempo]\nimage: \"image.jpg\"\ndescription: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus molestie eros tincidunt, dictum enim et, gravida ante. Aenean semper nulla non ligula malesuada elementum. Morbi quis mollis lorem.\n---\n\nEsta es una prueba\n\n::: {.cell}\n\n```{.r .cell-code}\n2 + 2\n```\n\n::: {.cell-output-stdout}\n```\n[1] 4\n```\n:::\n:::",
     "supporting": [],
     "filters": [
       "rmarkdown/pagebreak.lua"

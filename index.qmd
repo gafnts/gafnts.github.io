@@ -1,4 +1,6 @@
 ---
+title: "Blog"
+subtitle: "Economía, ciencia de datos y machine learning"
 listing:
   contents: posts
   sort: "date desc"
@@ -8,6 +10,7 @@ listing:
   filter-ui: false
   fields: [title, description, image, date, categories, reading-time]
 page-layout: full
-title-block-banner: false
+title-block-banner: "#0D0D0D"
+title-block-banner-color: body
 lang: es
 ---
