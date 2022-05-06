@@ -43,9 +43,7 @@ $success:       $green !default;
 $info:          $cyan !default;
 $warning:       $yellow !default;
 $danger:        $red !default;
-// This is inconsistent with Bootstrap semantics. That is, $dark
-// should actually be a light color in a dark mode setting, :shrug:
-// https://github.com/thomaspark/bootswatch/issues/989
+
 $light:         body-mix(65%) !default;
 $dark:          body-mix(95%) !default;
 
@@ -59,14 +57,14 @@ $link-color:                $green !default;
 
 // stylelint-disable-next-line value-keyword-case
 $font-family-sans-serif:      Lato, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !default;
-$h1-font-size:                2.2rem !default;
-$h2-font-size:                2rem !default;
+$h1-font-size:                2.25rem !default;
+$h2-font-size:                1.5rem !default;
 $h3-font-size:                1.5rem !default;
 $text-muted:                  body-mix(75%) !default;
 
 // Tables
 
-$table-border-color:          body-mix(85%) !default;
+$table-border-color:          body-mix(50%) !default;
 
 $table-bg-scale:              0 !default;
 
@@ -203,6 +201,19 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0
   color: $gray-700;
 }
 
+// Banner
+
+.quarto-title-banner{
+  padding-top: 50px;
+  padding-bottom: 45px;
+}
+
+.quarto-description{
+  line-height: 1.5;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
 // Navs
 
 .nav-tabs,
@@ -250,5 +261,42 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0
     }
   }
 }
+
+// Blog
+
+div.quarto-post {
+  margin-bottom: 2em;
+}
+
+div.quarto-post .body {
+  margin-bottom: 20px;
+}
+
+.page-columns .column-page-left {
+  margin-bottom: 0;
+}
+
+.quarto-listing-category-title {
+  margin-top: 20px;
+}
+
+.quarto-listing {
+  margin-top: 20px;
+  margin-bottom: -105px;
+}
+
+// About
+
+div.quarto-about-trestles {
+  margin-top: 20px;
+  margin-bottom: -75px;
+}
+
+// Footer
+
+.footer {
+  margin-top: 65px;
+}
+
 
 
