@@ -2,9 +2,9 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "Gabriel Fuentes",
+    "title": "Blog",
     "section": "",
-    "text": "Comercio internacional\n\n\nEconometría\n\n\n\n\n¿Qué dice la Nueva Economía Geográfica acerca de los rendimientos crecientes, competencia imperfecta y flujos comerciales a nivel internacional?\n\n\n\n\n\n\n5 may 2022\n\n\n2 minutos\n\n\n\n\n\n\n  \n\n\n\n\n\n\n\n\n\n\nEconometría\n\n\nSeries de tiempo\n\n\n\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus molestie eros tincidunt, dictum enim et, gravida ante. Aenean semper nulla non ligula malesuada elementum. Morbi quis mollis lorem. Donec luctus elit arcu, ut fringilla augue fringilla quis. Sed viverra dui non dignissim convallis.\n\n\n\n\n\n\n4 may 2022\n\n\n0 minutos\n\n\n\n\n\n\nNo hay resultados"
+    "text": "Comercio internacional\n\n\nEconometría\n\n\n\n\n¿Qué dice la Nueva Economía Geográfica acerca de los rendimientos crecientes, competencia imperfecta y flujos comerciales a nivel internacional?\n\n\n\n\n\n\n5 may 2022\n\n\n2 minutos\n\n\n\n\n\n\n  \n\n\n\n\n\n\n\n\n\n\nEconometría\n\n\nSeries de tiempo\n\n\n\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus molestie eros tincidunt, dictum enim et, gravida ante. Aenean semper nulla non ligula malesuada elementum. Morbi quis mollis lorem.\n\n\n\n\n\n\n4 may 2022\n\n\n0 minutos\n\n\n\n\n\n\nNo hay resultados"
   },
   {
     "objectID": "posts/post-with-code/index.html",
@@ -53,13 +53,27 @@
     "href": "posts/Pronósticos-de-inflación-con-modelos-de-aprendizaje-automático/index.html",
     "title": "Pronósticos de inflación con modelos de aprendizaje automático",
     "section": "",
-    "text": "1 + 1\n\n[1] 2"
+    "text": "2 + 2\n\n[1] 4"
   },
   {
     "objectID": "posts/Modelos-gravitacionales-y-la-nueva-economía-geográfica/index.html",
     "href": "posts/Modelos-gravitacionales-y-la-nueva-economía-geográfica/index.html",
     "title": "Modelos gravitacionales y la nueva economía geográfica",
     "section": "",
-    "text": "Second part\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus molestie eros tincidunt, dictum enim et, gravida ante. Aenean semper nulla non ligula malesuada elementum. Morbi quis mollis lorem. Donec luctus elit arcu, ut fringilla augue fringilla quis. Sed viverra dui non dignissim convallis,\n\\[\nF_{ij} = R \\frac{m_i * m_j}{d_{ij}}\n\\]\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus molestie eros tincidunt, dictum enim et, gravida ante. Aenean semper nulla non ligula malesuada elementum. Morbi quis mollis lorem. Donec luctus elit arcu, ut fringilla augue fringilla quis. Sed viverra dui non dignissim convallis.\n\n\nThird part\n\nFootnotes and the bibliography typically appear at the end of the document, but you can choose to have them placed in the margin by setting the following option1 in the document front matter:\n\n\n\n\n\n\nWe know from the first fundamental theorem of calculus that for \\(x\\) in \\([a, b]\\):\n\\[\\frac{d}{dx}\\left( \\int_{a}^{x} f(u)\\,du\\right)=f(x).\\]\n\n\nReferencias\n\nAthey, S., & Imbens, G. W. (2019). Machine Learning Methods That Economists Should Know About. Annual Review of Economics, 11(1), 685725. https://doi.org/10.1146/annurev-economics-080217-053433\n\nNotas\n\n\nUna prueba de los distintos componentes que Quarto ofrece.↩︎"
+    "text": "Esta es una prueba1, la canción que estoy escuchando dice “a la deriva con el mar”. Además, quiero ver cómo citar a mis fuentes, por ejemplo—en línea con Athey & Imbens (2019)—citar en Quarto debería de ser relativamente sencillo.\n\nlibrary(tidyverse)\n\n\n\n\nmtcars %>% \n  ggplot(aes(cyl, mpg, group = cyl)) +\n  geom_boxplot() +\n  theme(\n        # X axis\n        axis.title.x = element_blank(),\n        axis.text.x = element_text(color = \"#F2F2F2\"),\n        axis.ticks.x = element_line(size = .5, color = \"white\"),\n        axis.ticks.length.x = unit(0.25, \"cm\"),\n        # Y axis\n        axis.title.y = element_blank(),\n        axis.text.y = element_text(color = \"#F2F2F2\"),\n        axis.ticks.y = element_blank(),\n        # Grid\n        panel.grid = element_line(color = \"#F2F2F2\", size = .15),\n        panel.grid.minor = element_blank(),\n        panel.grid.major.x = element_blank(),\n        # Legend\n        legend.title = element_blank(),\n        legend.text = element_text(color = \"gray\"),\n        legend.position = c(0.275, 1.1),\n        legend.background = element_rect(fill = NA),\n        legend.margin = margin(0, 0, 0, 0, \"cm\"),\n        legend.key = element_rect(fill = NA),\n        legend.key.size = unit(.65, \"cm\"),\n        legend.direction = \"horizontal\",\n        # Backgrounds\n        plot.background = element_rect(fill = \"#2E2E2E\", color = NA),\n        panel.background = element_rect(fill = \"#2E2E2E\"))\n\n\n\n\nFigura 1: City and highway mileage for 38 popular models of cars."
+  },
+  {
+    "objectID": "posts/Modelos-gravitacionales-y-la-nueva-economía-geográfica/index.html#second-part",
+    "href": "posts/Modelos-gravitacionales-y-la-nueva-economía-geográfica/index.html#second-part",
+    "title": "Modelos gravitacionales y la nueva economía geográfica",
+    "section": "2 Second part",
+    "text": "2 Second part\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus molestie eros tincidunt, dictum enim et, gravida ante. Aenean semper nulla non ligula malesuada elementum. Morbi quis mollis lorem. Donec luctus elit arcu, ut fringilla augue fringilla quis. Sed viverra dui non dignissim convallis,\n\\[\nF_{ij} = R \\frac{m_i * m_j}{d_{ij}}\n\\]\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus molestie eros tincidunt, dictum enim et, gravida ante. Aenean semper nulla non ligula malesuada elementum. Morbi quis mollis lorem. Donec luctus elit arcu, ut fringilla augue fringilla quis. Sed viverra dui non dignissim convallis."
+  },
+  {
+    "objectID": "posts/Modelos-gravitacionales-y-la-nueva-economía-geográfica/index.html#third-part",
+    "href": "posts/Modelos-gravitacionales-y-la-nueva-economía-geográfica/index.html#third-part",
+    "title": "Modelos gravitacionales y la nueva economía geográfica",
+    "section": "3 Third part",
+    "text": "3 Third part\nFootnotes and the bibliography typically appear at the end of the document, but you can choose to have them placed in the margin by setting the following option1 in the document front matter:\n\n\n\n\n\n\nWe know from the first fundamental theorem of calculus that for \\(x\\) in \\([a, b]\\):\n\\[\\frac{d}{dx}\\left( \\int_{a}^{x} f(u)\\,du\\right)=f(x).\\]"
   }
 ]

@@ -5,19 +5,11 @@ lang: es
 date: "5/4/2022"
 categories: [Econometría, Series de tiempo]
 image: "image.jpg"
-description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus molestie eros tincidunt, dictum enim et, gravida ante. Aenean semper nulla non ligula malesuada elementum. Morbi quis mollis lorem. Donec luctus elit arcu, ut fringilla augue fringilla quis. Sed viverra dui non dignissim convallis. 
+description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus molestie eros tincidunt, dictum enim et, gravida ante. Aenean semper nulla non ligula malesuada elementum. Morbi quis mollis lorem.
 ---
 
 Esta es una prueba
 
 ```{r}
 2 + 2
-```
-
-```{r}
-library(ggplot2)
-
-mtcars %>% 
-  ggplot(aes(cyl, mpg, group = cyl)) +
-  geom_boxplot()
 ```

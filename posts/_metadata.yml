@@ -2,7 +2,8 @@
 freeze: true
 
 # Enable banner style title blocks
-title-block-banner: true
+title-block-banner: "#0D0D0D"
+title-block-banner-color: body
 
 # Default author
 author:
@@ -24,6 +25,9 @@ comments:
   utterances:
     repo: gafnts/gafnts.github.io
     theme: github-dark
+    
+# Section numbering
+number-sections: true
 
 # Default citation format
 csl: apa.csl

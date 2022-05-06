@@ -7,9 +7,7 @@ image: "image.jpg"
 bibliography: references.bib
 ---
 
-# First part
-
-------------------------------------------------------------------------
+## First part
 
 Esta es una prueba[^1], la canción que estoy escuchando dice "a la deriva con el mar". Además, quiero ver cómo citar a mis fuentes, por ejemplo---en línea con @athey2019---citar en Quarto debería de ser relativamente sencillo.
 
@@ -21,7 +19,7 @@ Esta es una prueba[^1], la canción que estoy escuchando dice "a la deriva con e
 library(tidyverse)
 ```
 
-## Subtitle
+### Subtitle
 
 ```{r}
 #| label: fig-boxplot
@@ -58,9 +56,7 @@ mtcars %>%
         panel.background = element_rect(fill = "#2E2E2E"))
 ```
 
-# Second part
-
-------------------------------------------------------------------------
+## Second part
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus molestie eros tincidunt, dictum enim et, gravida ante. Aenean semper nulla non ligula malesuada elementum. Morbi quis mollis lorem. Donec luctus elit arcu, ut fringilla augue fringilla quis. Sed viverra dui non dignissim convallis,
 
@@ -70,9 +66,7 @@ $$
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus molestie eros tincidunt, dictum enim et, gravida ante. Aenean semper nulla non ligula malesuada elementum. Morbi quis mollis lorem. Donec luctus elit arcu, ut fringilla augue fringilla quis. Sed viverra dui non dignissim convallis.
 
-# Third part
-
-------------------------------------------------------------------------
+## Third part
 
 Footnotes and the bibliography typically appear at the end of the document, but you can choose to have them placed in the margin by setting the following option^[1](https://quarto.org/docs/authoring/article-layout.html#fn1)^ in the document front matter:
 
