@@ -7,6 +7,9 @@ website:
   favicon: favicon.png
   site-url: https://gafnts.github.io/
   lang: es
+  search: 
+    location: navbar
+    type: textbox
   navbar:
     logo: logo.png
     left:
@@ -28,17 +31,11 @@ website:
           href: https://twitter.com/gants
       border: true
       background: dark
-  search: 
-    location: navbar
-    type: textbox
-      
             
 format:
   html:
     theme: dark.scss
     css: styles.css
-
-freeze: true
-
+    
 editor: visual
 
