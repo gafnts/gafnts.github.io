@@ -9,7 +9,13 @@ website:
   twitter-card: true
     card-style: summary_large_image
     creator: "@gafnts"
-  google-analytics: "G-SLRQS7H2TD"
+  cookie-consent:
+    type: express
+    style: headline
+    palette: dark
+  google-analytics:
+    tracking-id: "G-SLRQS7H2TD"
+    anonymize-ip: true
   lang: es
   search: 
     location: navbar
