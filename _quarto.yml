@@ -6,6 +6,10 @@ website:
   title: "Gabriel Fuentes"
   favicon: favicon.png
   site-url: https://gafnts.github.io/
+  twitter-card: true
+    card-style: summary_large_image
+    creator: "@gafnts"
+  google-analytics: "G-SLRQS7H2TD"
   lang: es
   search: 
     location: navbar
