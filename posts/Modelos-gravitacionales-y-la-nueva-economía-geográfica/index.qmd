@@ -19,6 +19,30 @@ Esta es una prueba[^1], la canción que estoy escuchando dice "a la deriva con e
 library(tidyverse)
 ```
 
+```{r}
+#| warning: false
+
+you_want_it_darker <- function(...) {
+    theme(
+    text = element_text(color = "#BFBFBF", size = 12),
+    # Axis
+    axis.text = element_text(color = "#BFBFBF"),
+    axis.title.x = element_text(margin = unit(c(.6, 0, .2, 0), "cm")),
+    axis.title.y = element_text(margin = unit(c(0, .6, 0, .2), "cm")),
+    # Legend
+    legend.background = element_rect(fill = "#2E2E2E"),
+    legend.position = "bottom",
+    # Panel
+    panel.grid = element_line(color = "#2E2E2E"),
+    # Backgrounds
+    plot.background = element_rect(fill = "#2E2E2E", color = NA),
+    panel.background = element_rect(fill = "#202020"),
+    # Margin
+    plot.margin = unit(c(.5, .5, .4, .2), "cm")
+    )
+}
+```
+
 ### Subtitle
 
 ```{r}
@@ -27,33 +51,9 @@ library(tidyverse)
 
 mtcars %>% 
   ggplot(aes(cyl, mpg, group = cyl)) +
-  geom_boxplot() +
-  theme(
-        # X axis
-        axis.title.x = element_blank(),
-        axis.text.x = element_text(color = "#F2F2F2"),
-        axis.ticks.x = element_line(size = .5, color = "white"),
-        axis.ticks.length.x = unit(0.25, "cm"),
-        # Y axis
-        axis.title.y = element_blank(),
-        axis.text.y = element_text(color = "#F2F2F2"),
-        axis.ticks.y = element_blank(),
-        # Grid
-        panel.grid = element_line(color = "#F2F2F2", size = .15),
-        panel.grid.minor = element_blank(),
-        panel.grid.major.x = element_blank(),
-        # Legend
-        legend.title = element_blank(),
-        legend.text = element_text(color = "gray"),
-        legend.position = c(0.275, 1.1),
-        legend.background = element_rect(fill = NA),
-        legend.margin = margin(0, 0, 0, 0, "cm"),
-        legend.key = element_rect(fill = NA),
-        legend.key.size = unit(.65, "cm"),
-        legend.direction = "horizontal",
-        # Backgrounds
-        plot.background = element_rect(fill = "#2E2E2E", color = NA),
-        panel.background = element_rect(fill = "#2E2E2E"))
+  geom_col() +
+  labs(x = "Tiempo", y = "Variable") +
+  you_want_it_darker()
 ```
 
 ## Second part
