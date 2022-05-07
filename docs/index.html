@@ -23,6 +23,8 @@
   <link href="./favicon.png" rel="icon" type="image/png">
   <script src="site_libs/quarto-listing/list.min.js"></script>
   <script src="site_libs/quarto-listing/quarto-listing.js"></script>
+  <script src="site_libs/cookie-consent/cookie-consent.js"></script>
+  <link href="site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
   <script src="site_libs/quarto-html/quarto.js"></script>
   <script src="site_libs/quarto-html/popper.min.js"></script>
   <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -74,10 +76,37 @@
       }
     });
     </script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-SLRQS7H2TD"></script>
+
+  <script type="text/plain" cookie-consent="tracking">
+
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-SLRQS7H2TD', { 'anonymize_ip': true});
+  </script>
+  
+  <script type="text/javascript" charset="UTF-8">
+  document.addEventListener('DOMContentLoaded', function () {
+  cookieconsent.run({
+    "notice_banner_type":"headline",
+    "consent_type":"express",
+    "palette":"dark",
+    "language":"en",
+    "page_load_consent_levels":["strictly-necessary"],
+    "notice_banner_reject_button_hide":false,
+    "preferences_center_close_button_hide":false,
+    "website_name":""
+    });
+  });
+  </script> 
+    
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
   <link rel="stylesheet" href="styles.css">
+<meta name="twitter:title" content="Gabriel Fuentes - Blog">
+<meta name="twitter:card" content="summary">
 <style>
   .quarto-title-banner {
 
@@ -302,6 +331,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">© Gabriel Fuentes (2022)</div>   
+      <div class="nav-footer-center"><div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item compact">
