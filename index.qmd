@@ -1,6 +1,6 @@
 ---
 title: "Blog"
-subtitle: "Economía, ciencia de datos y machine learning"
+subtitle: "Economía, análisis de datos y machine learning"
 listing:
   contents: posts
   sort: "date desc"
