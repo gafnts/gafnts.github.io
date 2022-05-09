@@ -10,6 +10,7 @@ website:
   google-analytics: "G-SLRQS7H2TD"
   repo-url: https://github.com/gafnts/gafnts.github.io
   repo-actions: edit
+  repo-branch: blog
   lang: es
   search: 
     location: navbar

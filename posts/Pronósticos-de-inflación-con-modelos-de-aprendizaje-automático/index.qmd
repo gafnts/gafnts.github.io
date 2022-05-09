@@ -6,6 +6,7 @@ date: "5/4/2022"
 categories: [Econometría, Series de tiempo]
 image: "image.jpg"
 description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus molestie eros tincidunt, dictum enim et, gravida ante. Aenean semper nulla non ligula malesuada elementum. Morbi quis mollis lorem.
+draft: true
 ---
 
 Esta es una prueba
