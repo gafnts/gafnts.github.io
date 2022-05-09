@@ -1,16 +1,31 @@
 ---
-title: "Pronósticos de inflación con modelos de aprendizaje automático"
+title: "Temas"
 author: "Gabriel Fuentes"
 lang: es
 date: "5/4/2022"
-categories: [Econometría, Series de tiempo]
 image: "image.jpg"
-description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus molestie eros tincidunt, dictum enim et, gravida ante. Aenean semper nulla non ligula malesuada elementum. Morbi quis mollis lorem.
+description: Lista de posibles temas para nuevas entradas del blog
 draft: true
 ---
 
-Esta es una prueba
+## Temas
 
-```{r}
-2 + 2
-```
+Pronosticando el precio de Bitcoin en con modelos de machine learning
+
+Climate, population and economic growth
+
+SICOIN: Military expenditure
+
+Trade: Gravity equations
+
+Spotify: Themes (tex mining) and characteristics (national bands)
+
+PNC: Crime (clustering, UMAP, PCA, forecasting)
+
+Inflation forecasting: Time series models or machine learning algorithms?
+
+SIB: Bank analysis
+
+Global growth accounting
+
+Income gender/ethnic inequality
