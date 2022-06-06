@@ -1,5 +1,5 @@
 ---
-title: "Modelos gravitacionales y la nueva economía geográfica"
+title: "Estimando un modelo de gravedad estructural con una regresión Pseudo-Máxima Verosimilitud de Poisson (PPML)"
 description: "¿Qué dice la Nueva Economía Geográfica acerca de los rendimientos crecientes, competencia imperfecta y flujos comerciales a nivel internacional?"
 categories: [Comercio internacional, Econometría]
 date: "5/5/2022"
