@@ -1,5 +1,5 @@
 ---
-title: "Estimando un modelo de gravedad estructural con una regresión Pseudo Máxima Verosimilitud de Poisson (PPML)"
+title: "Estimando el modelo de gravedad estructural con una regresión Pseudo Máxima Verosimilitud de Poisson"
 description: "¿Cuáles han sido los patrones comerciales de Guatemala desde 1995 hasta 2020 cuando se considera en el análisis a sus socios de comercio exterior en América?"
 categories: [Comercio internacional, Econometría, Datos de panel]
 date: "6/6/2022"
@@ -7,19 +7,55 @@ image: "image.jpg"
 bibliography: references.bib
 ---
 
-## First part
+## El plan
 
-Esta es una prueba[^1], la canción que estoy escuchando dice "a la deriva con el mar". Además, quiero ver cómo citar a mis fuentes, por ejemplo---en línea con @athey2019---citar en Quarto debería de ser relativamente sencillo.
+El principal propósito de esta entrada es demostrar cómo estimar en R un modelo de gravedad a partir de una regresión Pseudo Máxima Verosimilitud de Poisson (PPML, por sus siglas en inglés). ¿Porqué PPML? Bueno, existe una gran cantidad de estudios en la literatura que indican que este es uno de los métodos más congruentes con la teoría gravitacional del comercio exterior, un modelo que en su forma más sencilla describe al volumen de los flujos de intercambio comercial bilateral entre países por medio de una función que es proporcional al tamaño de sus economías e inversamente proporcional a la distancia geográfica que existe entre ellas[^1].
 
-[^1]: Una prueba de los distintos componentes que Quarto ofrece.
+[^1]: Si esto suena familiar, quizás sea porque el modelo de gravedad del comercio es una analogía de la Ley de Gravitación Universal de Newton, pero aplicada al análisis de los flujos de comercio bilateral entre países.
+
+Sin embargo, la teoría del comercio es un tema apasionante; los datos brindan muchas oportunidades para hacer todo tipo de análisis. Por eso, antes de estimar al modelo, tomaremos el tiempo para hacer dos cosas:
+
+-   Un repaso por los puntos claves de la teoría del comercio que no solo nos ayudará a interpretar los resultados de la estimación, sino que tendrá una influencia en la especificación de nuestro modelo gravitacional.
+
+-   Un análisis de datos que será la excusa perfecta para mostrar como aprovechar muchas de las funciones que los paquetes incluidos en el `tidyverse` nos ofrecen para manipular y visualizar nuestros datos.
+
+Ese es el plan. Manos a la obra.
+
+## Un (no tan) breve paseo por la teoría del comercio
+
+Desde sus primeras formulaciones, las teorías del comercio han estado interesadas en explicar cuáles son las leyes fundamentales que rigen la asignación global de los recursos con los que cuentan las diferentes economías.
+
+Tanto las teorías clásicas como las teorías neoclásicas pueden enmarcarse en una sola vertiente denominada como la teoría del comercio tradicional. Dos características sobresalen en esta vertiente. La primera es su análisis del comercio como un fenómeno basado en las interacciones entre naciones, contrario a lo que los teóricos del comercio propondrán a partir de la segunda mitad del siglo XX, para quienes son las empresas---y no los países---las unidades mínimas desde las que emergen los procesos comerciales a nivel internacional [@jeyarajah2021].
+
+Además, como @sen2010 hace notar, el análisis de las teorías tradicionales se ha enfocado mayoritariamente en explicar este fenómeno desde la perspectiva de la oferta a través de modelos de equilibrio general fundamentados bajo el supuesto de competencia perfecta. Las nuevas teorías del comercio se han desviado de tal paradigma analítico para comprender el rol que desempeñan los rendimientos crecientes, la competencia monopolística y la heterogeneidad en preferencias y productos en las dinámicas del comercio exterior.
+
+### El modelo Heckscher-Ohlin-Samuelson
+
+Según McPherson et al. (2001), la teoría más utilizada al describir los patrones de comercio entre países ha sido el modelo de proporciones de factores. Propuesto por primera vez por Heckscher (1919) y modificado con posterioridad por Ohlin (1933) y Samuelson (1949), el modelo tiene por objeto comprender cuáles son las bases de las diferentes ventajas comparativas que experimentan las naciones, así como identificar cuáles son los efectos del comercio internacional en la distribución del ingreso nacional.
+
+El modelo postula que los flujos de intercambio bilateral están determinados por las diferencias en las proporciones relativas de los factores de producción de cada país (Krugman et al., 2018a). El modelo describe las interacciones comerciales de dos países en un contexto en el que únicamente se manufacturan dos bienes con dos factores de producción (capital y trabajo). Además, se asumen retornos constantes a escala, competencia perfecta (tanto en el mercado de bienes como en los mercados de ambos factores) y homogeneidad en las preferencias de los consumidores de ambas economías.
+
+Además, ambas naciones cuentan con la misma tecnología para producir dichos bienes y existe una especialización productiva incompleta en cada uno de ellos. Los costos de transporte no son tomados en cuenta, no existen desequilibrios en las balanzas comerciales y ambas economías utilizan sus recursos disponibles en su totalidad. Por último, se asume una perfecta movilidad de los factores de forma doméstica, pero inmovilidad de los mismos a nivel internacional (Pal, 2018).
+
+Dentro de este esquema, una nación se asume como intensiva en factor capital cuando la proporción capital--trabajo que es utilizada en la producción de uno de los bienes es mayor a la misma proporción que se utiliza durante la manufactura del otro. Mientras tanto, la abundancia de uno de los factores puede ser definida de dos maneras: En términos de las unidades físicas que están disponibles para una economía o en términos relativos del precio de los factores (Salvatore, 2012).
+
+Dadas estas definiciones, se especifica que uno de los países, al tener una abundancia relativa en factor trabajo, puede producir una mayor cantidad del bien que es intensivo en dicho factor (Krugman et al., 2018a), por lo que el modelo establece que una nación "exportará el bien cuya producción requiere el uso intensivo del factor relativamente abundante (...) e importará el producto cuya manufactura requiera el uso intensivo del factor relativamente escaso" (Salvatore, 2012:118).
+
+### La Nueva Teoría del Comercio
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus molestie eros tincidunt, dictum enim et, gravida ante. Aenean semper nulla non ligula malesuada elementum. Morbi quis mollis lorem. Donec luctus elit arcu, ut fringilla augue fringilla quis. Sed viverra dui non dignissim convallis.
+
+### La teoría de gravedad del comercio internacional
+
+## Análisis de datos
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus molestie eros tincidunt, dictum enim et, gravida ante. Aenean semper nulla non ligula malesuada elementum. Morbi quis mollis lorem. Donec luctus elit arcu, ut fringilla augue fringilla quis. Sed viverra dui non dignissim convallis.
 
 ```{r}
 #| warning: false
 
 pacman::p_load(tidyverse, gafnts)
 ```
-
-### Subtitle
 
 ```{r}
 #| label: fig-boxplot
@@ -32,17 +68,13 @@ mtcars %>%
   you_want_it_darker()
 ```
 
-## Second part
+### Proporción de flujos analizados y su balanza comercial
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus molestie eros tincidunt, dictum enim et, gravida ante. Aenean semper nulla non ligula malesuada elementum. Morbi quis mollis lorem. Donec luctus elit arcu, ut fringilla augue fringilla quis. Sed viverra dui non dignissim convallis,
+### Mapas de intensidad de los flujos comerciales
 
-$$
-F_{ij} = R \frac{m_i * m_j}{d_{ij}}
-$$
+### Similitud y superposición del comercio
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus molestie eros tincidunt, dictum enim et, gravida ante. Aenean semper nulla non ligula malesuada elementum. Morbi quis mollis lorem. Donec luctus elit arcu, ut fringilla augue fringilla quis. Sed viverra dui non dignissim convallis.
-
-## Third part
+## Estimación del modelo de gravedad estructural
 
 Footnotes and the bibliography typically appear at the end of the document, but you can choose to have them placed in the margin by setting the following option^[1](https://quarto.org/docs/authoring/article-layout.html#fn1)^ in the document front matter:
 
