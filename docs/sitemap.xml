@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://gafnts.github.io/index.html</loc>
-    <lastmod>2022-06-06T18:31:29.742Z</lastmod>
+    <lastmod>2022-06-06T18:41:33.416Z</lastmod>
   </url>
   <url>
     <loc>https://gafnts.github.io/about.html</loc>
@@ -15,5 +15,13 @@
   <url>
     <loc>https://gafnts.github.io/posts/Estimando-un-modelo-de-gravedad-estructural-con-una-regresión-Pseudo-Máxima-Verosimilitud-de-Poisson/index.html</loc>
     <lastmod>2022-06-06T18:31:28.964Z</lastmod>
+  </url>
+  <url>
+    <loc>https://gafnts.github.io/posts/estimando-un-modelo-de-gravedad-con-ppml/index.html</loc>
+    <lastmod>2022-06-06T18:41:26.036Z</lastmod>
+  </url>
+  <url>
+    <loc>https://gafnts.github.io/posts/Estimando-un-modelo-de-gravedad-estructural-con-una-regresion-Pseudo-Maxima-Verosimilitud-de-Poisson/index.html</loc>
+    <lastmod>2022-06-06T18:41:32.706Z</lastmod>
   </url>
 </urlset>

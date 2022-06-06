@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+  <meta charset="utf-8">
+  <meta name="generator" content="quarto-0.9.222">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="Gabriel Fuentes">
+  <meta name="description" content="¿Cuáles han sido los patrones comerciales de Guatemala desde 1995 hasta 2020 cuando se considera en el análisis a sus socios de comercio exterior en América?">
+  <title>Gabriel Fuentes - Estimando el modelo de gravedad estructural con una regresión Pseudo Máxima Verosimilitud de Poisson</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+
+  <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+  <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+  <script src="../../site_libs/clipboard/clipboard.min.js"></script>
+  <meta name="quarto:offset" content="../../">
+  <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+  <script src="../../site_libs/quarto-search/fuse.min.js"></script>
+  <script src="../../site_libs/quarto-search/quarto-search.js"></script>
+  <link href="../../favicon.png" rel="icon" type="image/png">
+  <script src="../../site_libs/quarto-html/quarto.js"></script>
+  <script src="../../site_libs/quarto-html/popper.min.js"></script>
+  <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+  <script src="../../site_libs/quarto-html/anchor.min.js"></script>
+  <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+  <link id="quarto-text-highlighting-styles" href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet">
+  <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+  <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+  <link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <script id="quarto-search-options" type="application/json">{
+    "location": "navbar",
+    "copy-button": false,
+    "collapse-after": 3,
+    "panel-placement": "end",
+    "type": "textbox",
+    "limit": 20,
+    "language": {
+      "search-no-results-text": "Sín resultados",
+      "search-matching-documents-text": "documentos encontrados",
+      "search-copy-link-title": "Copiar el enlace en la busqueda",
+      "search-hide-matches-text": "Esconder resultados adicionales",
+      "search-more-match-text": "hay más resultados en este documento",
+      "search-more-matches-text": "más resultados en este documento",
+      "search-clear-button-title": "Borrar",
+      "search-detached-cancel-button-title": "Cancelar",
+      "search-submit-button-title": "Eviar"
+    }
+  }</script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-SLRQS7H2TD"></script>
+
+  <script type="text/javascript">
+
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-SLRQS7H2TD', { 'anonymize_ip': true});
+  </script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link rel="stylesheet" href="../../styles.css">
+<meta name="twitter:title" content="Gabriel Fuentes - Estimando el modelo de gravedad estructural con una regresión Pseudo Máxima Verosimilitud de Poisson">
+<meta name="twitter:description" content="¿Cuáles han sido los patrones comerciales de Guatemala desde 1995 hasta 2020 cuando se considera en el análisis a sus socios de comercio exterior en América?">
+<meta name="twitter:card" content="summary">
+<style>
+  .quarto-title-banner {
+
+    background-color: #0D0D0D;
+  
+}</style></head>
+<body class="floating nav-fixed">
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../../index.html">
+    <img src="../../logo.png" alt="">
+    <span class="navbar-title">Gabriel Fuentes</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">Sobre mí</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html">Blog</a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/gafnts"><i class="bi bi-twitter" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/gafnts"><i class="bi bi-github" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+
+
+
+<div class="quarto-title-banner color-body page-columns page-full"><div class="quarto-title column-body"><h1 class="title display-7">Estimando el modelo de gravedad estructural con una regresión Pseudo Máxima Verosimilitud de Poisson</h1><div class="quarto-description"><p>¿Cuáles han sido los patrones comerciales de Guatemala desde 1995 hasta 2020 cuando se considera en el análisis a sus socios de comercio exterior en América?</p></div><div class="quarto-categories"><div class="quarto-category">Comercio internacional</div><div class="quarto-category">Econometría</div><div class="quarto-category">Datos de panel</div></div></div></div><div class="quarto-title-meta"><div><div class="quarto-title-meta-heading">Autor</div><div class="quarto-title-meta-contents"><div class="quarto-title-authors"><div><div>
+<p>Gabriel Fuentes</p>
+</div></div></div></div></div><div><div class="quarto-title-meta-heading">Fecha de Publicación</div><div class="quarto-title-meta-contents"><p class="date">6 de junio de 2022</p></div></div></div></header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc">
+<h2 id="toc-title">En esta página</h2>
+<ul>
+<li><a href="#el-plan" id="toc-el-plan" class="nav-link active" data-scroll-target="#el-plan"> <span class="header-section-number">1</span> El plan</a></li>
+</ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/gafnts/gafnts.github.io/edit/blog/posts/estimando-un-modelo-de-gravedad-con-ppml/index.qmd" class="toc-action">Editar esta página</a></p></div></div></nav>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+<section id="el-plan" class="level2" data-number="1" data-sidebar-align="true">
+<h2 data-number="1" class="anchored" data-anchor-id="el-plan"><span class="header-section-number">1</span> El plan</h2>
+<p>El principal propósito de esta entrada es demostrar cómo estimar en R un modelo de gravedad a partir de una regresión Pseudo Máxima Verosimilitud de Poisson (PPML, por sus siglas en inglés). ¿Porqué PPML? Bueno, existe una gran cantidad de estudios en la literatura que indican que este es uno de los métodos más congruentes con la teoría gravitacional del comercio exterior, un modelo que en su forma más sencilla describe al volumen de los flujos de intercambio comercial bilateral entre países por medio de una función que es proporcional al tamaño de sus economías e inversamente proporcional a la distancia geográfica que existe entre ellas<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
+<p>Sin embargo, la teoría del comercio es un tema apasionante; los datos brindan muchas oportunidades para hacer todo tipo de análisis. Por eso, antes de estimar al modelo, tomaremos el tiempo para hacer dos cosas:</p>
+<ul>
+<li><p>Un repaso por los puntos claves de la teoría del comercio que no solo nos ayudará a interpretar los resultados de la estimación, sino que tendrá una influencia en la especificación de nuestro modelo gravitacional.</p></li>
+<li><p>Un análisis de datos que será la excusa perfecta para mostrar como aprovechar muchas de las funciones que los paquetes incluidos en el <code>tidyverse</code> nos ofrecen para manipular y visualizar nuestros datos.</p></li>
+</ul>
+<p>Ese es el plan. Manos a la obra.</p>
+
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Notas</h2>
+
+<ol>
+<li id="fn1" role="doc-endnote"><p>Si esto suena familiar, quizás sea porque el modelo de gravedad del comercio es una analogía de la Ley de Gravitación Universal de Newton, pero aplicada al análisis de los flujos de comercio bilateral entre países.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
+<script type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    setTimeout(function() {
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<script src="https://utteranc.es/client.js" repo="gafnts/gafnts.github.io" issue-term="pathname" theme="github-dark" crossorigin="anonymous" async="">
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">© Gabriel Fuentes (2022)</div>   
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/gafnts">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/gants">
+      <i class="bi bi-twitter" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+</body></html>
