@@ -19,7 +19,7 @@ about:
 
 <br> <br> <br>
 
-Apasionado por tareas de predicción de series de tiempo macroeconómicas, inferencia microeconométrica orientada al análisis de la conducta humana y programación estadística con Python y R.
+Apasionado por tareas de predicción de series de tiempo macroeconómicas, inferencia microeconométrica orientada al análisis de la conducta humana y programación estadística con Python, R y SQL.
 
 ### Educación
 
