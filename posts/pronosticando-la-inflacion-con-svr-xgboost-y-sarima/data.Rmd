@@ -1,0 +1,52 @@
+# Limpieza de datos
+
+```{r}
+pacman::p_load(tidyverse, here)
+```
+
+```{r}
+data_raw <- read_csv(
+  here('posts', 
+       'pronosticando-la-inflacion-con-svr-xgboost-y-sarima', 
+       'data_raw.csv')
+)
+```
+
+```{r}
+data <- 
+  data_raw |> 
+  slice(5:nrow(data_raw)) |> 
+  row_to_names(1) |> 
+  clean_names() |> 
+  select(where(~ !all(is.na(.x)))) |> 
+  rename('fecha' = na) |> 
+  separate(fecha, c('year', 'month')) |> 
+  mutate(
+    month = case_when(
+      month == 'Setiembre' ~ 'Septiembre',
+      TRUE ~ month
+    ),
+    fecha = parse_date(
+      paste0(month, " ", year), 
+      "%B %Y",  
+      locale = locale('es')
+    ),
+    across(where(is.character), as.double)
+  ) |> 
+  select(fecha, 3:5) |> 
+  rename(
+    'ipc' = 2,
+    'var_mensual' = 3,
+    'var_anual' = 4
+  )
+```
+
+```{r}
+data |> 
+  write_csv(
+    here(
+      'posts',
+      'pronosticando-la-inflacion-con-svr-xgboost-y-sarima', 
+      'data.csv')
+    )
+```
