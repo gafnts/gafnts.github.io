@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://gafnts.github.io/index.html</loc>
-    <lastmod>2022-07-18T14:18:24.988Z</lastmod>
+    <lastmod>2022-07-25T14:37:36.080Z</lastmod>
   </url>
   <url>
     <loc>https://gafnts.github.io/about.html</loc>
@@ -23,5 +23,13 @@
   <url>
     <loc>https://gafnts.github.io/posts/Estimando-un-modelo-de-gravedad-estructural-con-una-regresion-Pseudo-Maxima-Verosimilitud-de-Poisson/index.html</loc>
     <lastmod>2022-06-06T18:41:32.706Z</lastmod>
+  </url>
+  <url>
+    <loc>https://gafnts.github.io/posts/pronosticando-la-inflacion-con-svr-xgboost-y-sarima/data.html</loc>
+    <lastmod>2022-07-18T17:03:31.511Z</lastmod>
+  </url>
+  <url>
+    <loc>https://gafnts.github.io/posts/pronosticando-la-inflacion-con-svr-xgboost-y-sarima/index.html</loc>
+    <lastmod>2022-07-25T14:37:42.528Z</lastmod>
   </url>
 </urlset>

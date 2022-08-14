@@ -68,7 +68,7 @@ ul.task-list{list-style: none;}
     const options = {
       valueNames: ['listing-title','listing-description','listing-image','listing-date','listing-categories','listing-reading-time',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
       
-      searchColumns: ["listing-categories"],
+      searchColumns: ["listing-date","listing-title","listing-author","listing-description","listing-categories"],
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
@@ -169,7 +169,7 @@ gtag('config', 'G-SLRQS7H2TD', { 'anonymize_ip': true});
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         
-    <h5 class="quarto-listing-category-title">Categorías</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">Todas <span class="quarto-category-count">(0)</span></div></div></div>
+    <h5 class="quarto-listing-category-title">Categorías</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">Todas <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Forecasting">Forecasting <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Machine learning">Machine learning <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Time series">Time series <span class="quarto-category-count">(1)</span></div></div></div>
 <!-- main -->
 <main class="content quarto-banner-title-block column-page-left" id="quarto-document-content">
 
@@ -182,7 +182,51 @@ gtag('config', 'G-SLRQS7H2TD', { 'anonymize_ip': true});
 
 <div class="quarto-listing quarto-listing-container-default" id="listing-listing">
 <div class="list quarto-listing-default">
+<div class="quarto-post image-right" data-index="0" data-categories="Machine learning,Time series,Forecasting" data-listing-date-sort="1658124000000" data-listing-file-modified-sort="1658424965072" data-listing-reading-time-sort="1.685">
+<div class="thumbnail">
+<a href="./posts/pronosticando-la-inflacion-con-svr-xgboost-y-sarima/index.html">
+<div class="thumbnail-image">
 
+</div>
+</a><p><a href="./posts/pronosticando-la-inflacion-con-svr-xgboost-y-sarima/index.html"></a></p>
+</div>
+<div class="body">
+<a href="./posts/pronosticando-la-inflacion-con-svr-xgboost-y-sarima/index.html">
+<h3 class="no-anchor listing-title">
+Pronosticando el ritmo inflacionario con SVR, XGBoost y SARIMA
+</h3>
+<div class="listing-subtitle">
+
+</div>
+</a>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('Machine learning'); return false;">
+Machine learning
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('Time series'); return false;">
+Time series
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('Forecasting'); return false;">
+Forecasting
+</div>
+</div>
+<a href="./posts/pronosticando-la-inflacion-con-svr-xgboost-y-sarima/index.html">
+<div class="listing-description">
+<p>¿Cuál es el método de machine learning más efectivo para predecir la tasa de cambio interanual del índice de precios al consumidor en Guatemala?</p>
+</div>
+</a>
+</div>
+<div class="metadata">
+<a href="./posts/pronosticando-la-inflacion-con-svr-xgboost-y-sarima/index.html">
+<div class="listing-date">
+18 jul 2022
+</div>
+<div class="listing-reading-time">
+1 minutos
+</div>
+</a>
+</div>
+</div>
 </div>
 <div class="listing-no-matching d-none">
 No hay resultados
@@ -295,7 +339,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </a>
   </li>  
     <li class="nav-item compact">
-    <a class="nav-link" href="https://twitter.com/gants">
+    <a class="nav-link" href="https://twitter.com/gafnts">
       <i class="bi bi-twitter" role="img">
 </i> 
     </a>

@@ -1,6 +1,8 @@
 [
   {
     "listing": "/index.html",
-    "items": []
+    "items": [
+      "/posts/pronosticando-la-inflacion-con-svr-xgboost-y-sarima/index.html"
+    ]
   }
 ]
