@@ -2,11 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://gafnts.github.io/index.html</loc>
-    <lastmod>2022-07-25T14:37:36.080Z</lastmod>
+    <lastmod>2023-03-21T01:28:39.486Z</lastmod>
   </url>
   <url>
     <loc>https://gafnts.github.io/about.html</loc>
-    <lastmod>2022-07-18T14:18:13.724Z</lastmod>
+    <lastmod>2023-03-21T01:21:22.341Z</lastmod>
   </url>
   <url>
     <loc>https://gafnts.github.io/posts/Modelos-gravitacionales-y-la-nueva-economía-geográfica/index.html</loc>
@@ -31,5 +31,9 @@
   <url>
     <loc>https://gafnts.github.io/posts/pronosticando-la-inflacion-con-svr-xgboost-y-sarima/index.html</loc>
     <lastmod>2022-07-25T14:37:42.528Z</lastmod>
+  </url>
+  <url>
+    <loc>https://gafnts.github.io/posts/Autoencoders: Qué son, para qué se usan y cómo implementarlos/index.html</loc>
+    <lastmod>2023-03-21T01:28:38.825Z</lastmod>
   </url>
 </urlset>
