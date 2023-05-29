@@ -11,35 +11,36 @@ website:
   repo-url: https://github.com/gafnts/gafnts.github.io
   repo-actions: edit
   repo-branch: blog
-  lang: es
   search: 
     location: navbar
     type: textbox
   navbar:
     logo: logo.png
     left:
-      - text: Sobre mí
-        href: about.qmd
       - text: Blog
         href: index.qmd
+      - text: Sobre mí
+        href: about.qmd
     right:
       - icon: twitter
         href: https://twitter.com/gafnts
       - icon: github
         href: https://github.com/gafnts
   page-footer: 
-      left: "© Gabriel Fuentes (2022)" 
+      left: "© Gabriel Fuentes (2023)" 
       right: 
         - icon: github
           href: https://github.com/gafnts
         - icon: twitter 
           href: https://twitter.com/gafnts
       border: true
-      background: dark
+      background: light
             
 format:
   html:
-    theme: dark.scss
+    theme: custom.scss
     css: styles.css
+    reference-location: margin
+    footnotes-hover: false
     
 editor: visual
