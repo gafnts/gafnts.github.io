@@ -2,7 +2,7 @@
 freeze: true
 
 # Enable banner style title blocks
-title-block-banner: "#0D0D0D"
+title-block-banner: "#7EA1C2"
 title-block-banner-color: body
 
 # Default author
@@ -20,12 +20,13 @@ format:
     smooth-scroll: true
     cap-location: margin
     number-depth: 2
+    code-line-numbers: true
   
 # Comment section  
 comments:
   utterances:
     repo: gafnts/gafnts.github.io
-    theme: github-dark
+    theme: boxy-light
     
 # Section numbering
 number-sections: true

@@ -15,7 +15,7 @@ website:
     location: navbar
     type: textbox
   navbar:
-    logo: logo.png
+    logo: favicon.png
     left:
       - text: Blog
         href: index.qmd
