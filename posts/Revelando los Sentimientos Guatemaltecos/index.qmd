@@ -1,0 +1,332 @@
+---
+title: "Revelando los sentimientos guatemaltecos"
+subtitle: "Extracción *zero-shot* de variables para *tweets* acerca de las elecciones presidenciales 2023 usando GPT-3.5"
+date: today
+categories: 
+  - "Natural language processing"
+  - "Object-oriented programming"
+  - "Data engineering"
+---
+
+## Decodificando sentimientos
+
+Con las elecciones presidenciales a menos de un mes de distancia, la importancia de comprender la voz del público no puede subestimarse. A través del uso de técnicas avanzadas, esta entrada busca no solo descubrir patrones en el sentimiento público, sino también demostrar cómo la nueva generación de modelos de lenguaje pueden emplearse para ofrecer perspectivas únicas y valiosas en la dinámica social y política de los países. Específicamente, utilizaremos dos poderosos recursos para llevar a cabo este análisis: la API de *Twitter* y la API de *OpenAI*.
+
+-   Primero, descargaremos tweets que mencionan a los cinco candidatos que lideraban la encuesta de Prensa Libre publicada a principios de mayo desde la *Twitter API V2* utilizando *Python.*
+-   Estos tweets, entonces, servirán como nuestro conjunto de datos base para extraer características utilizando la API de *OpenAI* y su modelo de lenguaje *GPT-3.5-turbo*, empleando una técnica llamada *zero-shot feature extraction*.
+-   Por último, terminaremos realizando una breve exploración de los resultados utilizando *R*, mi herramienta favorita cuando se trata de procedimientos estadísticos y de análisis de datos.
+
+A lo largo del blog, explicaremos cómo funcionan estas APIs, cómo utilizarlas implementando clases en *Python* lo suficientemente robustas como para lidiar con sus errores y excepciones, y cómo estos resultados se pueden utilizar para realizar un análisis profundo y significativo.
+
+Desde hace varios años, la intersección entre las ciencias de la computación y las ciencias sociales se ha transformado en uno de mis temas favoritos. Es verdaderamente emocionante darse cuenta de que nos encontramos en un momento único, en el cual es posible emplear tecnologías de vanguardia para obtener *insights* de eventos significativos. Quizás es más emocionante aún considerar que este tipo de análisis habría sido prácticamente imposible de llevar a cabo hace solo cinco años. ¿Lista? ¿Listo?
+
+## Extracción de *tweets* con *Tweepy*
+
+Okay. Cartas sobre la mesa. Implementar estos programas ha conllevado bastante de mi tiempo libre en las últimas semanas; estoy seguro de que leer todos los detalles sobre estas implementaciones también requeriría de una cantidad de tiempo considerable, por lo que en esta y la siguiente sección únicamente haremos un repaso por los puntos más importantes[^1].
+
+[^1]: Para los lectores más interesados he publicado [este repositorio](https://github.com/gafnts/2023-election-insights) en el es posible encontrar todos los programas y módulos utilizados para generar estos resultados. Las clases y sus métodos fueron debidamente documentados, pero siéntete libre de contactarme si te gustaría saber más sobre los detalles de estas implementaciones.
+
+### Enviando *requests* hacia la API
+
+La estructura del repositorio es extremadamente sencilla y el diseño de las clases se adhiere al *single-responsibility principle*. El directorio `modules` contiene las clases encargadas de comunicarse con las APIs, mientras que los programas `download_tweets.py` y `extract_features.py` se encargan de descargar la información en *batches*. En el caso del procedimiento de extracción de *tweets*, el módulo `twitter_request.py` contiene a la clase `TwitterRequest`, responsable de comunicarse con la *Twitter API V2* siguiendo los siguientes pasos:
+
+-   Consultar el *endpoint* `GET_2_tweets_search_recent` de la API utilizando al método `search_recent_tweets` para extraer los *tweets* que necesitamos.
+-   Procesar la respuesta de la API en formato *JSON*, conviertiéndola primero en un *DataFrame*.
+-   Separar a ese *DataFrame* en dos: Uno que contenga información de los *tweets* y otro que contenga información de los usuarios que realizaron dichas publicaciones.
+-   Preprocesar ambos *DataFrames* para estandarizar los nombres de las columnas y cambiar las columnas que contienen fechas a un formato más conveniente.
+
+En esta clase, el método más importante es `make_request`. Este método está decorado con `@backoff.on_exception` una forma increíblemente conveniente de hacer [*exponential backoff*](https://en.wikipedia.org/wiki/Exponential_backoff) en el momento en el que se produzca un error por generar demasiados *requests* o una excepción producto de un *timeout* entre nuestro cliente y el servidor. En cualquiera de estos casos, la función esperará un tiempo exponencialmente creciente antes de volver a intentarlo y únicamente hará un máximo de 5 intentos.
+
+```{python}
+#| eval: false
+ 
+import tweepy
+import backoff
+import requests
+from modules import setup_logger
+
+@backoff.on_exception(
+        backoff.expo, 
+        (tweepy.errors.TooManyRequests, requests.exceptions.ReadTimeout),
+        max_tries=5
+    )
+def make_request(self) -> "TwitterRequest":
+    self.query = f"{self.query} -is:retweet -is:reply"
+    self.logger.info("Making request with query: %s", self.query)
+
+    try:
+        self.tweets = client.search_recent_tweets(
+            query = self.query,
+            start_time = self.start_time,
+            end_time = self.end_time,
+            max_results = self.max_results,
+            tweet_fields = [
+                "id", "author_id", "created_at", "text", 
+                "public_metrics", "possibly_sensitive", "lang"
+            ],
+            user_fields = [
+                "id", "username", "name", "location", "created_at", "description", 
+                "profile_image_url", "verified", "public_metrics"
+            ],
+            expansions = [
+                "author_id", "referenced_tweets.id"
+            ]
+        )
+        
+        if self.tweets is None or self.tweets.data is None:
+            self.logger.error("No tweets returned from request")
+            return self
+          
+    except Exception as e: 
+        self.logger.error("Exception occurred", exc_info=True)
+        raise 
+
+    self.logger.info("Request completed successfully.")
+    return self
+```
+
+El mismo método define el *query* que se llevará a cabo, que en nuestro caso es un *string* con el nombre del candidato mencionado en los *tweets*, pero instruimos a la API para que no devuelva *tweets* que sean *retweets* o respuestas (`f"{self.query} -is:retweet -is:reply"`). En la solicitud, se incluyen campos específicos de los tweets y del usuario que los publicó. Por ejemplo, del *tweet* se solicita el ID, el autor, la fecha de creación, el texto, las métricas como cantidad de *retweets*, *likes* o respuestas, así como si la publicación tienen contenido sensible y cuál es su idioma. Del usuario solicitamos el ID, el nombre de usuario, el nombre, la ubicación, la fecha de creación del perfil, la descripción, la imagen de perfil, sus métricas públicas y si su perfil está verificado o no[^2].
+
+[^2]: Aunque mis procedimientos extrajeron toda esta información para más de 5,000 tweets que fueron publicados por múltiples usuarios durante las últimas dos semanas, el *Developer Agreement and Policy* de *Twitter* me prohibe publicar la totalidad de la información. Sin embargo, he publicado un [dataset reducido](https://github.com/gafnts/2023-election-insights/blob/main/data/tweets_gpt.csv) que contiene 1,420 tweets con sus respectivas métricas públicas y las características extraídas utilizando al modelo de lenguaje.
+
+Si la solicitud es exitosa y se obtiene cierta cantidad de *tweets* que son almacenados en el atributo `self.tweets`. Si no se obtiene ningún *tweet*, se registra un error en el *log*. Si ocurre alguna otra excepción durante la solicitud, también se registra en el *log* y es levantada para que pueda ser manejada por el decorador encargado de hacer exponential *backoff*. Por último, si la solicitud se completó con éxito, registramos este hecho en el *log* y retornamos al objeto `self`, para darnos la posibilidad de hacer [*method chaining*](https://stackoverflow.com/questions/41817578/basic-method-chaining).
+
+De esta forma, utilizar la clase `TwitterRequest` requiere únicamente de inicializarla con los parámetros `query`, `start_time`, `end_time` y `max_results`. *Like so*:
+
+```{python}
+#| eval: false
+
+from datetime import datetime
+from modules import TwitterRequest
+
+tweets, users = (
+  TwitterRequest(
+      query='zury rios',
+      start_time=datetime(2023, 5, 20, 15, 00),
+      end_time=datetime(2023, 5, 21, 15, 00),
+      max_results=10
+  )
+  .make_request()
+  .tweets_to_dataframe()
+  .users_to_dataframe()
+  .segregate_dataframe()
+  .preprocess_data(
+      tweets_prefix='tw_',
+      users_prefix='us_'
+  )
+)
+```
+
+### Descargando *tweets* en *batches*
+
+Tenemos una forma de comunicarnos con la API de *Twitter*, pedirle los datos que nos interesan y preprocesarlos para que estén listos para el resto del *pipeline*. Sin embargo, *Twitter* no nos va a hacer la vida fácil. Su API únicamente permite descargar *tweets* publicados en los últimos 7 días en batches de 60 *tweets* como máximo en un espacio de 15 minutos.[^3]
+
+[^3]: *Overprotective much?*
+
+Ni modo. El programa `download_tweets.py` esta diseñado para lidiar con las restricciones de la API de *Twitter*. El método `download_tweets` es un componente de la clase `DownloadTweets.` En resumen, este método descarga *tweets* y usuarios (utilizando el método `get_batch`, que es un *wrapper* para la clase `TwitterRequest`). Para cada candidato y rango de fechas, se invoca el método `get_batch` para obtener los *tweets* y usuarios, que se recopilan y se concatenan en dos atributos: `self.tweets` y `self.users`. Finalmente, el método devuelve estos dos *DataFrames* que contienen todos los *tweets* y usuarios recolectados.
+
+```{python}
+#| eval: false
+
+def download_tweets(self) -> Tuple[pd.DataFrame, pd.DataFrame]:
+    self.generate_dates()
+    logger.info(f"Generated {len(self.dates)} date pairs for tweet downloads.")
+
+    # Collect tweets and users for each candidate.
+    tweets_collector, users_collector = [], []
+    for candidate in self.candidates:
+
+        # Collect tweets and users for each date.
+        dates_tweets_collector, dates_users_collector = [], []
+        for start_date, end_date in self.dates:
+
+            tweets, users = self.get_batch(candidate, start_date, end_date)
+            dates_tweets_collector.append(tweets)
+            dates_users_collector.append(users)
+
+        tweets_collector.append(pd.concat(dates_tweets_collector))
+        users_collector.append(pd.concat(dates_users_collector))
+
+    self.tweets = pd.concat(tweets_collector, axis=0, ignore_index=True)
+    self.users = pd.concat(users_collector, axis=0, ignore_index=True)
+
+    logger.info(
+      f"Downloaded a total of {len(self.tweets)} tweets and {len(self.users)} users."
+    )
+    return self.tweets, self.users
+```
+
+## *Zero-shot feature extraccion* con GPT-3.5
+
+Ahora viene una de mis partes favoritas en este proceso. Vamos a usar a GPT-3.5 para generar nuevas *features* basadas en los *tweets* que hemos extraído. ¿Cómo? *Much in the same way we downloaded tweets*, usando una clase llamada `OpenAIRequest` (que se encargará de comunicarse con la API) y otra, llamada `FeatureExtraction`, que nos servirá para iterar en las filas del *DataFrame* que contiene las publicaciones de los usuarios de *Twitter*.
+
+### Enviando *requests* hacia la API
+
+El primer método relevante en la clase `OpenAIRequest` es `make_request`. De manera similar al método con el mismo nombre en el procedimiento de extracción de *tweets*, esta función estática está decorada con `backoff.on_exception` para poder lidiar con errores en el caso de un *timeout* o por sobrepasar los límites de uso de la API. En el caso del modelo `gpt-3.5-turbo`, podemos realizar una cantidad de 3,500 *requests* por minuto o enviar al *endpoint* un máximo 90,000 *tokens* en la misma cantidad de tiempo, lo que pase primero.
+
+Como veremos más adelante, el *prompt* con el que instruiremos al modelo tiene, en promedio, 600 *tokens.*[^4] En teoría, esto quiere decir que (basándonos en el límite de TPM) podemos enviar 150 *requests* cada 60 segundos. En la práctica, *though*, los tiempos de inferencia de los modelos de lenguaje son bastante altos. En nuestro caso, el tiempo de procesamiento por cada *tweet* fue de aproximadamente 15 segundos, así que extraer características para 1,420 *tweets* fue un proceso que tomó 6 horas, *give or take*.
+
+[^4]: *OpenAI* pone a nuestra disposición este [tokenizer](https://platform.openai.com/tokenizer), una herramienta que nos permite hacer un recuento de la cantidad de *tokens* en nuestros *prompts*. En lo personal, me sirve muchísimo para calcular los costos de procesamiento y para asegurarme de que mis *prompts* sean eficientes en términos de longitud.
+
+Los parámetros que acepta `make_request` son nuestro *prompt*, la especificación del modelo que queremos utilizar y `temperature`, un parámetro del modelo de lenguaje que puede ser un número entre 0 y 1. La temperatura controla el grado de aleatoriedad en las respuestas del modelo. Un valor de `temperature` más alto (cerca de 1) hace que el modelo genere respuestas más diversas y creativas, mientras que un valor más bajo (cerca de 0) hace que las respuestas sean más determinísticas o consistentes.[^5]
+
+[^5]: Los *transformers*, como GPT, son en sí mismos arquitecturas de redes neuronales determinísticas (es decir, generan la misma salida para una entrada específica). Sin embargo, se introduce aleatoriedad durante la generación de texto a través del muestreo de diferentes secuencias de palabras de acuerdo a las probabilidades de salida del modelo. En general, cuando usamos al modelo como un paso de procesamiento dentro de nuestros *pipelines*, queremos que cada respuesta sea lo más consistente posible para reducir las posibilidades de introducir *bugs* en nuestro sistema.
+
+```{python}
+#| eval: false
+
+@staticmethod
+@backoff.on_exception(
+    backoff.expo, 
+    (openai.error.RateLimitError, requests.exceptions.ReadTimeout),
+    max_tries=5
+)
+def make_request(prompt: str, model: str = "gpt-3.5-turbo", temperature: float = 0) -> str: 
+    messages = [{"role": "user", "content": prompt}]
+    response = openai.ChatCompletion.create(
+        model=model,
+        messages=messages,
+        temperature=temperature, 
+    )
+    return response.choices[0].message["content"]
+```
+
+El siguiente método relevante en la clase `OpenAIRequest` es `extract_features`. En este método, definimos el *prompt* que será utilizado para instruir al modelo de lenguaje. Este *prompt* es parametrizado a través de una *f string*, para permitirnos cambiar fácilmente la entrada según sea necesario.
+
+Una vez definido el *prompt*, realizamos la consulta a la API de *OpenAI* utilizando el método `make_request`. Si la respuesta obtenida es nula o inválida, registramos un error en el log y retornamos `None`. Además, para robustecer al procedimiento y manejar posibles excepciones durante la solicitud a la API, hemos envuelto este segmento de código dentro de un bloque *Try Except*. Si todo sale según lo planeado y obtenemos una respuesta válida, la misma es cargada como un diccionario JSON y finalmente retornada por el método `extract_features`.
+
+```{python}
+#| eval: false
+
+def extract_features(self, prefix: str) -> dict:
+    prompt = f""" (...) """
+    
+    try:
+        response = OpenAIRequest.make_request(prompt)
+        if response is None:
+            self.logger.error("Received invalid response from OpenAI")
+            return None
+        response = json.loads(response)
+    except Exception as e:
+        self.logger.error(f"Exception during API request: {e}")
+        return None
+
+    return response
+```
+
+### *Prompt engineering*
+
+Tengo que confesar algo. Hace unas semanas leí en una publicación de *LinkedIn* una frase que decía algo así como: "*Calling 'prompt engineering' the action of using ChatGPT today is like calling 'search engineering' to googling something in the early 2000s*". Y la confesión es que... pienso que es verdad.[^6] 
+
+[^6]: Por cierto, ya que estamos confesando cosas. La idea de esta entrada surgió porque hace poco más de un mes vi los videos del curso de *deeplearning.ai* llamado [*ChatGPT Prompt Engineering for Developers*](https://www.deeplearning.ai/short-courses/chatgpt-prompt-engineering-for-developers/). Es un curso extremadamente corto que tiene información útil acerca de los casos de uso del modelo desde una perspectiva programática. Si estás leyendo este blog, *chances are you're also gonna like this*.
+
+*Nontheless*, considero que cuando vamos un paso más allá y utilizamos estos modelos desde los *endpoints* que *OpenAI* pone a nuestra disposición, el *hype* que existe hacia el término está un poco más justificado. Principalmente porque, aunque redactamos la instrucción en lenguaje natural, el procedimiento recuerda mucho a definir una serie de pasos en cualquier lenguaje de programación.
+
+Para nuestros fines, este *prompt* dio buenos resultados:
+
+:::: {.column-page-right}
+::: {.callout-tip appearance="simple"}
+```{python}
+#| eval: false
+#| code-line-numbers: false
+
+prompt = f"""
+El siguiente es un tweet que menciona a un candidato presidencial dentro de la contienda electoral 2023 en Guatemala. 
+
+Por favor, clasifícalo de acuerdo a las siguientes categorías:
+
+Valencia (sentimiento general): [positivo, negativo, neutro, otro]
+Emoción (emoción principal expresada): [felicidad, tristeza, enojo, miedo, sorpresa, disgusto, otro]
+Postura (actitud hacia el tema): [aprobación, desaprobación, esperanza, desilusión, indiferencia, confianza, desconfianza, otro]
+Tono (forma de expresarse): [agresivo, pasivo, asertivo, escéptico, irónico, humorístico, informativo, serio, inspirador, otro]
+
+Además, evalúalo utilizando una escala continua con rango de 0 a 1 en las siguientes dimensiones:
+
+Amabilidad (nivel de cortesía): [0.0 - 1.0]
+Legibilidad (facilidad de lectura): [0.0 - 1.0]
+Controversialidad (potencial para generar desacuerdo): [0.0 - 1.0]
+Informatividad (cantidad de información relevante y fundamentada): [0.0 - 1.0]
+
+Formatea tu respuesta como un diccionario de Python con las siguientes llaves:
+
+[valencia, emocion, postura, tono, amabilidad, legibilidad, controversialidad, informatividad]
+
+Tweet: '''{self.tweet}'''
+"""
+```
+:::
+::::
+
+### *Zero-shot feature extraction*
+
+Estamos muy cerca de obtener los resultados que buscamos. Hasta el momento, los módulos que hemos implementado nos permiten enviar consultas hacia las APIs de *Twitter* y *OpenAI*, así como descargar *batches* de *tweets* que mencionan a los cinco candidatos que encabezaban la encuesta de Prensa Libre, publicada a inicios de mayo. Solo nos falta una forma procesar estos tweets para extraer variables que nos permitan analizarlos a una mayor profundidad. *Enter* `extract_features.py`, un programa en el que la clase `OpenAIRequest` es instanciada dentro de la clase `FeatureExtraction`.
+
+En el constructor de la clase se inicializan las rutas a dos archivos: `df_path` que es la ruta al archivo csv de entrada que contiene los *tweets*, y `results_df_path` que es la ruta al archivo csv de salida donde se almacenarán las características extraídas.
+
+El método principal de esta clase es `extract_features`. Este método primero carga los *tweets* del archivo csv de entrada y elimina los duplicados. Luego intenta cargar las características ya extraídas del archivo csv de salida. Si este archivo no existe, se inicializa un nuevo *DataFrame* vacío. El método luego determina qué *tweets* aún no han sido procesados comparando los *tweets* en los dos *DataFrames* y seleccionando aquellos que solo están en el *DataFrame* de entrada.
+
+```{python}
+#| eval: false
+
+def extract_features(self):
+    df = pd.read_csv(self.df_path)
+    df = df.drop_duplicates(subset=['tw_texto'], keep='first')
+
+    try:
+        df_results = pd.read_csv(self.results_df_path)
+        df_results = df_results.drop_duplicates(subset=['tw_texto'], keep='first')
+    except FileNotFoundError:
+        df_results = pd.DataFrame()
+
+    df_to_process = df[~df['tw_texto'].isin(df_results['tw_texto'])]
+    df_to_process = df_to_process.dropna()
+
+    for index, row in df_to_process.iterrows():
+        tweet = row['tw_texto']
+        response = (
+            OpenAIRequest(tweet)
+            .preprocess_text()
+            .extract_features(prefix='tw_')
+        )
+        df_result = pd.DataFrame([response], index=[index])
+        df_results = pd.concat([df_results, df_result])
+        df_results.to_csv(self.results_df_path, index=False)
+```
+
+A continuación, se procesa cada *tweet* que aún no ha sido procesado. Para cada uno de ellos, se realiza una solicitud a la API de *OpenAI* para realizar el procedimiento de *feature extraction* utilizando al modelo `gpt-3.5-turbo`. Las características extraídas se añaden al *DataFrame* de resultados, junto con el *tweet* original y un *tag* para identificar a qué candidato se refiere cada publicación. 
+
+Finalmente, después de procesar cada *tweet*, el *DataFrame* de resultados se guarda en el archivo csv de salida. Esto se hace después de cada *tweet* para evitar la pérdida de información en caso de que se produzca un error durante el procesamiento.
+
+## Análisis de la opinión pública
+
+*Cool*. Todos los procedimientos anteriores nos llevan a esta situación en la que tenemos un conjunto de datos listo para ser analizado. Como mencioné en algún punto de esta entrada, he publicado [este *dataset*](https://github.com/gafnts/2023-election-insights/blob/main/data/tweets_gpt.csv) en un repositorio de *GitHub*. *By all means*, síentete libre de descargarlo y hacer tu propio análisis exploratorio de datos. Si lo haces, me encantaría conocer tus descubrimientos. El *dataset* luce más o menos así:
+
+```{r}
+#| echo: false
+#| warning: false
+#| column: screen-inset-right
+
+pacman::p_load(tidyverse, knitr, kableExtra)
+
+df <- 
+  read_csv(
+    'https://raw.githubusercontent.com/gafnts/2023-election-insights/main/data/tweets_gpt.csv'
+)
+
+preview <- df |> slice(50:55)
+
+kable(preview, align = "c") |> 
+  kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed"), 
+    full_width = TRUE,
+    font_size = 13
+  ) |> 
+  column_spec(1, width_min = "7em") |> 
+  column_spec(2, width_min = "55em") |> 
+  column_spec(3, width_min = "7em")
+```
+
+
+## Conclusiones
+
+-   Los tiempos de inferencia son altos, así que los límites de la API de OpenAI son bastante bondadosos.
