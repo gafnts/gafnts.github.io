@@ -1,6 +1,6 @@
 ---
 title: "Revelando los sentimientos guatemaltecos"
-subtitle: "Extracción *zero-shot* de variables para *tweets* acerca de las elecciones presidenciales 2023 usando GPT-3.5"
+subtitle: "Extracción zero-shot de variables para tweets acerca de las elecciones presidenciales 2023 usando GPT-3.5"
 image: feature.png
 date: today
 categories: 
@@ -534,7 +534,7 @@ Otra pregunta importante es cómo se relacionan la controversialidad de los twee
 
 En estas regresiones, hemos incluido la puntuación de controversialidad de los tweets, calculada utilizando el modelo GPT durante la extracción de características. En general, los resultados sugieren que los *tweets* más controvertidos tienden a ser retuiteados con mayor frecuencia para cada uno de los cinco candidatos en nuestro análisis, en promedio.
 
-```{r}
+```{r .preview-image}
 #| code-fold: true
 #| warning: false
 
