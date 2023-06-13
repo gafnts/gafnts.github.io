@@ -1,7 +1,7 @@
 ---
 title: "Revelando los sentimientos guatemaltecos"
 subtitle: "Extracción *zero-shot* de variables para *tweets* acerca de las elecciones presidenciales 2023 usando GPT-3.5"
-image: thumbnail.png
+image: feature.png
 date: today
 categories: 
   - "Natural language processing"

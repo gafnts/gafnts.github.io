@@ -6,6 +6,7 @@ website:
   title: "Gabriel Fuentes"
   favicon: favicon.png
   site-url: https://gafnts.github.io/
+  open-graph: true
   twitter-card: true
   google-analytics: "G-SLRQS7H2TD"
   repo-url: https://github.com/gafnts/gafnts.github.io
