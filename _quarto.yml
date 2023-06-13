@@ -11,7 +11,7 @@ website:
   google-analytics: "G-SLRQS7H2TD"
   repo-url: https://github.com/gafnts/gafnts.github.io
   repo-actions: edit
-  repo-branch: blog
+  repo-branch: master
   search: 
     location: navbar
     type: textbox
