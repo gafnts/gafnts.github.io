@@ -591,6 +591,6 @@ Mis reflexiones personales tras realizar estos experimentos se resumen en los si
 
     Este aspecto se vincula con el primer punto: al implementar *pipelines* en sistemas de *machine learning* que utilizan *large language models*, es fundamental diseñar mecanismos que puedan corregir estos *outputs* inesperados de manera eficaz, garantizando así la robustez del sistema en su totalidad.
 
--   Por último, encuentro que los tiempos de inferencia de GPT relativamente largos. Esto plantea desafíos de escalabilidad al usar este modelo como método de procesamiento, especialmente a medida que el conjunto de datos se expande.
+-   Por último, encuentro que los tiempos de inferencia de GPT son relativamente largos. Esto plantea desafíos de escalabilidad al usar este modelo como método de procesamiento, especialmente a medida que el conjunto de datos se expande.
 
-Esta entrada evidencia el emocionante cruce entre las ciencias de la computación y las ciencias sociales, y cómo esta intersección permite generar *insights* de eventos significativos a través de tecnologías avanzadas. Pese a los desafíos, el resultado es un conjunto de datos valiosos y un análisis de alto nivel acerca de las opiniones expresadas sobre los candidatos que compiten por ser el próximo presidente de Guatemala.
+Esta entrada evidencia el emocionante cruce entre las ciencias de la computación y las ciencias sociales, y cómo esta intersección permite generar *insights* de eventos significativos a través de tecnologías avanzadas. Pese a los desafíos, el resultado es un conjunto de datos valiosos y un análisis de alto nivel acerca de las opiniones expresadas en el debate público respecto a los candidatos que compiten por ser el próximo presidente de Guatemala.
