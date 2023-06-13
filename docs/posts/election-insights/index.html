@@ -84,6 +84,25 @@ code span.st { color: #4070a0; } /* String */
 code span.va { color: #19177c; } /* Variable */
 code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
 </style>
 
 
@@ -146,7 +165,10 @@ gtag('config', 'G-SLRQS7H2TD', { 'anonymize_ip': true});
 <link rel="stylesheet" href="../../styles.css">
 <meta name="twitter:title" content="Gabriel Fuentes - Revelando los sentimientos guatemaltecos">
 <meta name="twitter:description" content="Extracción *zero-shot* de variables para *tweets* acerca de las elecciones presidenciales 2023 usando GPT-3.5">
-<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gafnts.github.io/posts/election-insights/thumbnail.png">
+<meta name="twitter:image-height" content="1450">
+<meta name="twitter:image-width" content="1920">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="floating nav-fixed slimcontent">
@@ -221,7 +243,7 @@ gtag('config', 'G-SLRQS7H2TD', { 'anonymize_ip': true});
       <div>
       <div class="quarto-title-meta-heading">Fecha de publicación</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">31 de mayo de 2023</p>
+        <p class="date">12 de junio de 2023</p>
       </div>
     </div>
     
@@ -248,10 +270,14 @@ gtag('config', 'G-SLRQS7H2TD', { 'anonymize_ip': true});
   <li><a href="#prompt-engineering" id="toc-prompt-engineering" class="nav-link" data-scroll-target="#prompt-engineering"><em>Prompt engineering</em></a></li>
   <li><a href="#zero-shot-feature-extraction" id="toc-zero-shot-feature-extraction" class="nav-link" data-scroll-target="#zero-shot-feature-extraction"><em>Zero-shot feature extraction</em></a></li>
   </ul></li>
-  <li><a href="#análisis-de-la-opinión-pública" id="toc-análisis-de-la-opinión-pública" class="nav-link" data-scroll-target="#análisis-de-la-opinión-pública"><span class="toc-section-number">4</span>  Análisis de la opinión pública</a></li>
+  <li><a href="#análisis-de-la-opinión-pública" id="toc-análisis-de-la-opinión-pública" class="nav-link" data-scroll-target="#análisis-de-la-opinión-pública"><span class="toc-section-number">4</span>  Análisis de la opinión pública</a>
+  <ul class="collapse">
+  <li><a href="#explorando-el-dataset" id="toc-explorando-el-dataset" class="nav-link" data-scroll-target="#explorando-el-dataset">Explorando el <em>dataset</em></a></li>
+  <li><a href="#analizando-sentimientos" id="toc-analizando-sentimientos" class="nav-link" data-scroll-target="#analizando-sentimientos">Analizando sentimientos</a></li>
+  </ul></li>
   <li><a href="#conclusiones" id="toc-conclusiones" class="nav-link" data-scroll-target="#conclusiones"><span class="toc-section-number">5</span>  Conclusiones</a></li>
   </ul>
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/gafnts/gafnts.github.io/edit/blog/posts/Revelando los Sentimientos Guatemaltecos/index.qmd" class="toc-action">Editar esta página</a></p></div></div></nav>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/gafnts/gafnts.github.io/edit/blog/posts/election-insights/index.qmd" class="toc-action">Editar esta página</a></p></div></div></nav>
 </nav>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
@@ -264,14 +290,14 @@ gtag('config', 'G-SLRQS7H2TD', { 'anonymize_ip': true});
 
 <section id="decodificando-sentimientos" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="decodificando-sentimientos"><span class="header-section-number">1</span> Decodificando sentimientos</h2>
-<p>Con las elecciones presidenciales a menos de un mes de distancia, la importancia de comprender la voz del público no puede subestimarse. A través del uso de técnicas avanzadas, esta entrada busca no solo descubrir patrones en el sentimiento público, sino también demostrar cómo la nueva generación de modelos de lenguaje pueden emplearse para ofrecer perspectivas únicas y valiosas en la dinámica social y política de los países. Específicamente, utilizaremos dos poderosos recursos para llevar a cabo este análisis: la API de <em>Twitter</em> y la API de <em>OpenAI</em>.</p>
+<p>Con las elecciones presidenciales a poco más de dos semanas de distancia, la importancia de comprender la voz del público no puede subestimarse. A través del uso de técnicas avanzadas, esta entrada busca no solo descubrir patrones en el sentimiento público, sino también demostrar cómo la nueva generación de modelos de lenguaje pueden emplearse para ofrecer perspectivas únicas y valiosas en la dinámica social y política de los países. Específicamente, utilizaremos dos poderosos recursos para llevar a cabo este análisis: la API de <em>Twitter</em> y la API de <em>OpenAI</em>.</p>
 <ul>
 <li>Primero, descargaremos tweets que mencionan a los cinco candidatos que lideraban la encuesta de Prensa Libre publicada a principios de mayo desde la <em>Twitter API V2</em> utilizando <em>Python.</em></li>
-<li>Estos tweets, entonces, servirán como nuestro conjunto de datos base para extraer características utilizando la API de <em>OpenAI</em> y su modelo de lenguaje <em>GPT-3.5-turbo</em>, empleando una técnica llamada <em>zero-shot feature extraction</em>.</li>
-<li>Por último, terminaremos realizando una breve exploración de los resultados utilizando <em>R</em>, mi herramienta favorita cuando se trata de procedimientos estadísticos y de análisis de datos.</li>
+<li>Estos tweets, entonces, servirán como nuestro conjunto de datos base para extraer características utilizando la API de <em>OpenAI</em> y su modelo de lenguaje <code>gpt-3.5-turbo</code>, empleando una técnica llamada <em>zero-shot feature extraction</em>.</li>
+<li>Por último, realizaremos una breve exploración de los resultados utilizando <em>R</em>, mi herramienta favorita cuando se trata de procedimientos estadísticos y de análisis de datos.</li>
 </ul>
 <p>A lo largo del blog, explicaremos cómo funcionan estas APIs, cómo utilizarlas implementando clases en <em>Python</em> lo suficientemente robustas como para lidiar con sus errores y excepciones, y cómo estos resultados se pueden utilizar para realizar un análisis profundo y significativo.</p>
-<p>Desde hace varios años, la intersección entre las ciencias de la computación y las ciencias sociales se ha transformado en uno de mis temas favoritos. Es verdaderamente emocionante darse cuenta de que nos encontramos en un momento único, en el cual es posible emplear tecnologías de vanguardia para obtener <em>insights</em> de eventos significativos. Quizás es más emocionante aún considerar que este tipo de análisis habría sido prácticamente imposible de llevar a cabo hace solo cinco años. ¿Lista? ¿Listo?</p>
+<p>Desde hace varios años, la intersección entre las ciencias de la computación y las ciencias sociales se ha transformado en uno de mis temas favoritos. Es verdaderamente emocionante darse cuenta de que nos encontramos en un momento único, en el cual es posible emplear tecnologías de vanguardia para obtener <em>insights</em> de eventos significativos. Quizás es más emocionante aún considerar que este tipo de análisis habría sido prácticamente imposible de llevar a cabo hace solo dos años. ¿Lista? ¿Listo?</p>
 </section>
 <section id="extracción-de-tweets-con-tweepy" class="level2 page-columns page-full" data-number="2">
 <h2 data-number="2" class="anchored" data-anchor-id="extracción-de-tweets-con-tweepy"><span class="header-section-number">2</span> Extracción de <em>tweets</em> con <em>Tweepy</em></h2>
@@ -281,7 +307,7 @@ gtag('config', 'G-SLRQS7H2TD', { 'anonymize_ip': true});
 <p>La estructura del repositorio es extremadamente sencilla y el diseño de las clases se adhiere al <em>single-responsibility principle</em>. El directorio <code>modules</code> contiene las clases encargadas de comunicarse con las APIs, mientras que los programas <code>download_tweets.py</code> y <code>extract_features.py</code> se encargan de descargar la información en <em>batches</em>. En el caso del procedimiento de extracción de <em>tweets</em>, el módulo <code>twitter_request.py</code> contiene a la clase <code>TwitterRequest</code>, responsable de comunicarse con la <em>Twitter API V2</em> siguiendo los siguientes pasos:</p>
 <ul>
 <li>Consultar el <em>endpoint</em> <code>GET_2_tweets_search_recent</code> de la API utilizando al método <code>search_recent_tweets</code> para extraer los <em>tweets</em> que necesitamos.</li>
-<li>Procesar la respuesta de la API en formato <em>JSON</em>, conviertiéndola primero en un <em>DataFrame</em>.</li>
+<li>Procesar la respuesta de la API en formato JSON, conviertiéndola primero en un <em>DataFrame</em>.</li>
 <li>Separar a ese <em>DataFrame</em> en dos: Uno que contenga información de los <em>tweets</em> y otro que contenga información de los usuarios que realizaron dichas publicaciones.</li>
 <li>Preprocesar ambos <em>DataFrames</em> para estandarizar los nombres de las columnas y cambiar las columnas que contienen fechas a un formato más conveniente.</li>
 </ul>
@@ -332,7 +358,7 @@ gtag('config', 'G-SLRQS7H2TD', { 'anonymize_ip': true});
 <span id="cb1-43"><a href="#cb1-43"></a>    <span class="cf">return</span> <span class="va">self</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="page-columns page-full"><p>El mismo método define el <em>query</em> que se llevará a cabo, que en nuestro caso es un <em>string</em> con el nombre del candidato mencionado en los <em>tweets</em>, pero instruimos a la API para que no devuelva <em>tweets</em> que sean <em>retweets</em> o respuestas (<code>f"{self.query} -is:retweet -is:reply"</code>). En la solicitud, se incluyen campos específicos de los tweets y del usuario que los publicó. Por ejemplo, del <em>tweet</em> se solicita el ID, el autor, la fecha de creación, el texto, las métricas como cantidad de <em>retweets</em>, <em>likes</em> o respuestas, así como si la publicación tienen contenido sensible y cuál es su idioma. Del usuario solicitamos el ID, el nombre de usuario, el nombre, la ubicación, la fecha de creación del perfil, la descripción, la imagen de perfil, sus métricas públicas y si su perfil está verificado o no<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>.</p><div class="no-row-height column-margin column-container"><li id="fn2"><p><sup>2</sup>&nbsp;Aunque mis procedimientos extrajeron toda esta información para más de 5,000 tweets que fueron publicados por múltiples usuarios durante las últimas dos semanas, el <em>Developer Agreement and Policy</em> de <em>Twitter</em> me prohibe publicar la totalidad de la información. Sin embargo, he publicado un <a href="https://github.com/gafnts/2023-election-insights/blob/main/data/tweets_gpt.csv">dataset reducido</a> que contiene 1,420 tweets con sus respectivas métricas públicas y las características extraídas utilizando al modelo de lenguaje.</p></li></div></div>
-<p>Si la solicitud es exitosa y se obtiene cierta cantidad de <em>tweets</em> que son almacenados en el atributo <code>self.tweets</code>. Si no se obtiene ningún <em>tweet</em>, se registra un error en el <em>log</em>. Si ocurre alguna otra excepción durante la solicitud, también se registra en el <em>log</em> y es levantada para que pueda ser manejada por el decorador encargado de hacer exponential <em>backoff</em>. Por último, si la solicitud se completó con éxito, registramos este hecho en el <em>log</em> y retornamos al objeto <code>self</code>, para darnos la posibilidad de hacer <a href="https://stackoverflow.com/questions/41817578/basic-method-chaining"><em>method chaining</em></a>.</p>
+<p>Si la solicitud es exitosa, se obtiene cierta cantidad de <em>tweets</em> que son almacenados en el atributo <code>self.tweets</code>. Si no se obtiene ningún <em>tweet</em>, se registra un error en el <em>log</em>. Si ocurre alguna otra excepción durante la solicitud, también se registra en el <em>log</em> y es levantada para que pueda ser manejada por el decorador encargado de hacer exponential <em>backoff</em>. Por último, si la solicitud se completó con éxito, registramos este hecho en el <em>log</em> y retornamos al objeto <code>self</code>, para darnos la posibilidad de hacer <a href="https://stackoverflow.com/questions/41817578/basic-method-chaining"><em>method chaining</em></a>.</p>
 <p>De esta forma, utilizar la clase <code>TwitterRequest</code> requiere únicamente de inicializarla con los parámetros <code>query</code>, <code>start_time</code>, <code>end_time</code> y <code>max_results</code>. <em>Like so</em>:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="im">from</span> datetime <span class="im">import</span> datetime</span>
@@ -361,32 +387,37 @@ gtag('config', 'G-SLRQS7H2TD', { 'anonymize_ip': true});
 <div class="page-columns page-full"><p>Tenemos una forma de comunicarnos con la API de <em>Twitter</em>, pedirle los datos que nos interesan y preprocesarlos para que estén listos para el resto del <em>pipeline</em>. Sin embargo, <em>Twitter</em> no nos va a hacer la vida fácil. Su API únicamente permite descargar <em>tweets</em> publicados en los últimos 7 días en batches de 60 <em>tweets</em> como máximo en un espacio de 15 minutos.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p><div class="no-row-height column-margin column-container"><li id="fn3"><p><sup>3</sup>&nbsp;<em>Overprotective much?</em></p></li></div></div>
 <p>Ni modo. El programa <code>download_tweets.py</code> esta diseñado para lidiar con las restricciones de la API de <em>Twitter</em>. El método <code>download_tweets</code> es un componente de la clase <code>DownloadTweets.</code> En resumen, este método descarga <em>tweets</em> y usuarios (utilizando el método <code>get_batch</code>, que es un <em>wrapper</em> para la clase <code>TwitterRequest</code>). Para cada candidato y rango de fechas, se invoca el método <code>get_batch</code> para obtener los <em>tweets</em> y usuarios, que se recopilan y se concatenan en dos atributos: <code>self.tweets</code> y <code>self.users</code>. Finalmente, el método devuelve estos dos <em>DataFrames</em> que contienen todos los <em>tweets</em> y usuarios recolectados.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">def</span> download_tweets(<span class="va">self</span>) <span class="op">-&gt;</span> Tuple[pd.DataFrame, pd.DataFrame]:</span>
-<span id="cb3-2"><a href="#cb3-2"></a>    <span class="va">self</span>.generate_dates()</span>
-<span id="cb3-3"><a href="#cb3-3"></a>    logger.info(<span class="ss">f"Generated </span><span class="sc">{</span><span class="bu">len</span>(<span class="va">self</span>.dates)<span class="sc">}</span><span class="ss"> date pairs for tweet downloads."</span>)</span>
-<span id="cb3-4"><a href="#cb3-4"></a></span>
-<span id="cb3-5"><a href="#cb3-5"></a>    <span class="co"># Collect tweets and users for each candidate.</span></span>
-<span id="cb3-6"><a href="#cb3-6"></a>    tweets_collector, users_collector <span class="op">=</span> [], []</span>
-<span id="cb3-7"><a href="#cb3-7"></a>    <span class="cf">for</span> candidate <span class="kw">in</span> <span class="va">self</span>.candidates:</span>
-<span id="cb3-8"><a href="#cb3-8"></a></span>
-<span id="cb3-9"><a href="#cb3-9"></a>        <span class="co"># Collect tweets and users for each date.</span></span>
-<span id="cb3-10"><a href="#cb3-10"></a>        dates_tweets_collector, dates_users_collector <span class="op">=</span> [], []</span>
-<span id="cb3-11"><a href="#cb3-11"></a>        <span class="cf">for</span> start_date, end_date <span class="kw">in</span> <span class="va">self</span>.dates:</span>
-<span id="cb3-12"><a href="#cb3-12"></a></span>
-<span id="cb3-13"><a href="#cb3-13"></a>            tweets, users <span class="op">=</span> <span class="va">self</span>.get_batch(candidate, start_date, end_date)</span>
-<span id="cb3-14"><a href="#cb3-14"></a>            dates_tweets_collector.append(tweets)</span>
-<span id="cb3-15"><a href="#cb3-15"></a>            dates_users_collector.append(users)</span>
-<span id="cb3-16"><a href="#cb3-16"></a></span>
-<span id="cb3-17"><a href="#cb3-17"></a>        tweets_collector.append(pd.concat(dates_tweets_collector))</span>
-<span id="cb3-18"><a href="#cb3-18"></a>        users_collector.append(pd.concat(dates_users_collector))</span>
-<span id="cb3-19"><a href="#cb3-19"></a></span>
-<span id="cb3-20"><a href="#cb3-20"></a>    <span class="va">self</span>.tweets <span class="op">=</span> pd.concat(tweets_collector, axis<span class="op">=</span><span class="dv">0</span>, ignore_index<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb3-21"><a href="#cb3-21"></a>    <span class="va">self</span>.users <span class="op">=</span> pd.concat(users_collector, axis<span class="op">=</span><span class="dv">0</span>, ignore_index<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb3-22"><a href="#cb3-22"></a></span>
-<span id="cb3-23"><a href="#cb3-23"></a>    logger.info(</span>
-<span id="cb3-24"><a href="#cb3-24"></a>      <span class="ss">f"Downloaded a total of </span><span class="sc">{</span><span class="bu">len</span>(<span class="va">self</span>.tweets)<span class="sc">}</span><span class="ss"> tweets and </span><span class="sc">{</span><span class="bu">len</span>(<span class="va">self</span>.users)<span class="sc">}</span><span class="ss"> users."</span></span>
-<span id="cb3-25"><a href="#cb3-25"></a>    )</span>
-<span id="cb3-26"><a href="#cb3-26"></a>    <span class="cf">return</span> <span class="va">self</span>.tweets, <span class="va">self</span>.users</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="im">from</span> typing <span class="im">import</span> Tuple</span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="im">from</span> modules <span class="im">import</span> setup_logger</span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="im">from</span> modules <span class="im">import</span> TwitterRequest</span>
+<span id="cb3-5"><a href="#cb3-5"></a></span>
+<span id="cb3-6"><a href="#cb3-6"></a><span class="kw">def</span> download_tweets(<span class="va">self</span>) <span class="op">-&gt;</span> Tuple[pd.DataFrame, pd.DataFrame]:</span>
+<span id="cb3-7"><a href="#cb3-7"></a>    <span class="va">self</span>.generate_dates()</span>
+<span id="cb3-8"><a href="#cb3-8"></a>    logger.info(<span class="ss">f"Generated </span><span class="sc">{</span><span class="bu">len</span>(<span class="va">self</span>.dates)<span class="sc">}</span><span class="ss"> date pairs for tweet downloads."</span>)</span>
+<span id="cb3-9"><a href="#cb3-9"></a></span>
+<span id="cb3-10"><a href="#cb3-10"></a>    <span class="co"># Collect tweets and users for each candidate.</span></span>
+<span id="cb3-11"><a href="#cb3-11"></a>    tweets_collector, users_collector <span class="op">=</span> [], []</span>
+<span id="cb3-12"><a href="#cb3-12"></a>    <span class="cf">for</span> candidate <span class="kw">in</span> <span class="va">self</span>.candidates:</span>
+<span id="cb3-13"><a href="#cb3-13"></a></span>
+<span id="cb3-14"><a href="#cb3-14"></a>        <span class="co"># Collect tweets and users for each date.</span></span>
+<span id="cb3-15"><a href="#cb3-15"></a>        dates_tweets_collector, dates_users_collector <span class="op">=</span> [], []</span>
+<span id="cb3-16"><a href="#cb3-16"></a>        <span class="cf">for</span> start_date, end_date <span class="kw">in</span> <span class="va">self</span>.dates:</span>
+<span id="cb3-17"><a href="#cb3-17"></a></span>
+<span id="cb3-18"><a href="#cb3-18"></a>            tweets, users <span class="op">=</span> <span class="va">self</span>.get_batch(candidate, start_date, end_date)</span>
+<span id="cb3-19"><a href="#cb3-19"></a>            dates_tweets_collector.append(tweets)</span>
+<span id="cb3-20"><a href="#cb3-20"></a>            dates_users_collector.append(users)</span>
+<span id="cb3-21"><a href="#cb3-21"></a></span>
+<span id="cb3-22"><a href="#cb3-22"></a>        tweets_collector.append(pd.concat(dates_tweets_collector))</span>
+<span id="cb3-23"><a href="#cb3-23"></a>        users_collector.append(pd.concat(dates_users_collector))</span>
+<span id="cb3-24"><a href="#cb3-24"></a></span>
+<span id="cb3-25"><a href="#cb3-25"></a>    <span class="va">self</span>.tweets <span class="op">=</span> pd.concat(tweets_collector, axis<span class="op">=</span><span class="dv">0</span>, ignore_index<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb3-26"><a href="#cb3-26"></a>    <span class="va">self</span>.users <span class="op">=</span> pd.concat(users_collector, axis<span class="op">=</span><span class="dv">0</span>, ignore_index<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb3-27"><a href="#cb3-27"></a></span>
+<span id="cb3-28"><a href="#cb3-28"></a>    logger.info(</span>
+<span id="cb3-29"><a href="#cb3-29"></a>      <span class="ss">f"Downloaded a total of </span><span class="sc">{</span><span class="bu">len</span>(<span class="va">self</span>.tweets)<span class="sc">}</span><span class="ss"> tweets and </span><span class="sc">{</span><span class="bu">len</span>(<span class="va">self</span>.users)<span class="sc">}</span><span class="ss"> users."</span></span>
+<span id="cb3-30"><a href="#cb3-30"></a>    )</span>
+<span id="cb3-31"><a href="#cb3-31"></a>    <span class="cf">return</span> <span class="va">self</span>.tweets, <span class="va">self</span>.users</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
@@ -399,38 +430,45 @@ gtag('config', 'G-SLRQS7H2TD', { 'anonymize_ip': true});
 <div class="page-columns page-full"><p>Como veremos más adelante, el <em>prompt</em> con el que instruiremos al modelo tiene, en promedio, 600 <em>tokens.</em><a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> En teoría, esto quiere decir que (basándonos en el límite de TPM) podemos enviar 150 <em>requests</em> cada 60 segundos. En la práctica, <em>though</em>, los tiempos de inferencia de los modelos de lenguaje son bastante altos. En nuestro caso, el tiempo de procesamiento por cada <em>tweet</em> fue de aproximadamente 15 segundos, así que extraer características para 1,420 <em>tweets</em> fue un proceso que tomó 6 horas, <em>give or take</em>.</p><div class="no-row-height column-margin column-container"><li id="fn4"><p><sup>4</sup>&nbsp;<em>OpenAI</em> pone a nuestra disposición este <a href="https://platform.openai.com/tokenizer">tokenizer</a>, una herramienta que nos permite hacer un recuento de la cantidad de <em>tokens</em> en nuestros <em>prompts</em>. En lo personal, me sirve muchísimo para calcular los costos de procesamiento y para asegurarme de que mis <em>prompts</em> sean eficientes en términos de longitud.</p></li></div></div>
 <div class="page-columns page-full"><p>Los parámetros que acepta <code>make_request</code> son nuestro <em>prompt</em>, la especificación del modelo que queremos utilizar y <code>temperature</code>, un parámetro del modelo de lenguaje que puede ser un número entre 0 y 1. La temperatura controla el grado de aleatoriedad en las respuestas del modelo. Un valor de <code>temperature</code> más alto (cerca de 1) hace que el modelo genere respuestas más diversas y creativas, mientras que un valor más bajo (cerca de 0) hace que las respuestas sean más determinísticas o consistentes.<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></p><div class="no-row-height column-margin column-container"><li id="fn5"><p><sup>5</sup>&nbsp;Los <em>transformers</em>, como GPT, son en sí mismos arquitecturas de redes neuronales determinísticas (es decir, generan la misma salida para una entrada específica). Sin embargo, se introduce aleatoriedad durante la generación de texto a través del muestreo de diferentes secuencias de palabras de acuerdo a las probabilidades de salida del modelo. En general, cuando usamos al modelo como un paso de procesamiento dentro de nuestros <em>pipelines</em>, queremos que cada respuesta sea lo más consistente posible para reducir las posibilidades de introducir <em>bugs</em> en nuestro sistema.</p></li></div></div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="at">@staticmethod</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a><span class="at">@backoff.on_exception</span>(</span>
-<span id="cb4-3"><a href="#cb4-3"></a>    backoff.expo, </span>
-<span id="cb4-4"><a href="#cb4-4"></a>    (openai.error.RateLimitError, requests.exceptions.ReadTimeout),</span>
-<span id="cb4-5"><a href="#cb4-5"></a>    max_tries<span class="op">=</span><span class="dv">5</span></span>
-<span id="cb4-6"><a href="#cb4-6"></a>)</span>
-<span id="cb4-7"><a href="#cb4-7"></a><span class="kw">def</span> make_request(prompt: <span class="bu">str</span>, model: <span class="bu">str</span> <span class="op">=</span> <span class="st">"gpt-3.5-turbo"</span>, temperature: <span class="bu">float</span> <span class="op">=</span> <span class="dv">0</span>) <span class="op">-&gt;</span> <span class="bu">str</span>: </span>
-<span id="cb4-8"><a href="#cb4-8"></a>    messages <span class="op">=</span> [{<span class="st">"role"</span>: <span class="st">"user"</span>, <span class="st">"content"</span>: prompt}]</span>
-<span id="cb4-9"><a href="#cb4-9"></a>    response <span class="op">=</span> openai.ChatCompletion.create(</span>
-<span id="cb4-10"><a href="#cb4-10"></a>        model<span class="op">=</span>model,</span>
-<span id="cb4-11"><a href="#cb4-11"></a>        messages<span class="op">=</span>messages,</span>
-<span id="cb4-12"><a href="#cb4-12"></a>        temperature<span class="op">=</span>temperature, </span>
-<span id="cb4-13"><a href="#cb4-13"></a>    )</span>
-<span id="cb4-14"><a href="#cb4-14"></a>    <span class="cf">return</span> response.choices[<span class="dv">0</span>].message[<span class="st">"content"</span>]</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="im">import</span> openai</span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="im">import</span> backoff</span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="im">import</span> requests</span>
+<span id="cb4-4"><a href="#cb4-4"></a></span>
+<span id="cb4-5"><a href="#cb4-5"></a><span class="at">@staticmethod</span></span>
+<span id="cb4-6"><a href="#cb4-6"></a><span class="at">@backoff.on_exception</span>(</span>
+<span id="cb4-7"><a href="#cb4-7"></a>    backoff.expo, </span>
+<span id="cb4-8"><a href="#cb4-8"></a>    (openai.error.RateLimitError, requests.exceptions.ReadTimeout),</span>
+<span id="cb4-9"><a href="#cb4-9"></a>    max_tries<span class="op">=</span><span class="dv">5</span></span>
+<span id="cb4-10"><a href="#cb4-10"></a>)</span>
+<span id="cb4-11"><a href="#cb4-11"></a><span class="kw">def</span> make_request(prompt: <span class="bu">str</span>, model: <span class="bu">str</span> <span class="op">=</span> <span class="st">"gpt-3.5-turbo"</span>, temperature: <span class="bu">float</span> <span class="op">=</span> <span class="dv">0</span>) <span class="op">-&gt;</span> <span class="bu">str</span>: </span>
+<span id="cb4-12"><a href="#cb4-12"></a>    messages <span class="op">=</span> [{<span class="st">"role"</span>: <span class="st">"user"</span>, <span class="st">"content"</span>: prompt}]</span>
+<span id="cb4-13"><a href="#cb4-13"></a>    response <span class="op">=</span> openai.ChatCompletion.create(</span>
+<span id="cb4-14"><a href="#cb4-14"></a>        model<span class="op">=</span>model,</span>
+<span id="cb4-15"><a href="#cb4-15"></a>        messages<span class="op">=</span>messages,</span>
+<span id="cb4-16"><a href="#cb4-16"></a>        temperature<span class="op">=</span>temperature, </span>
+<span id="cb4-17"><a href="#cb4-17"></a>    )</span>
+<span id="cb4-18"><a href="#cb4-18"></a>    <span class="cf">return</span> response.choices[<span class="dv">0</span>].message[<span class="st">"content"</span>]</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>El siguiente método relevante en la clase <code>OpenAIRequest</code> es <code>extract_features</code>. En este método, definimos el <em>prompt</em> que será utilizado para instruir al modelo de lenguaje. Este <em>prompt</em> es parametrizado a través de una <em>f string</em>, para permitirnos cambiar fácilmente la entrada según sea necesario.</p>
 <p>Una vez definido el <em>prompt</em>, realizamos la consulta a la API de <em>OpenAI</em> utilizando el método <code>make_request</code>. Si la respuesta obtenida es nula o inválida, registramos un error en el log y retornamos <code>None</code>. Además, para robustecer al procedimiento y manejar posibles excepciones durante la solicitud a la API, hemos envuelto este segmento de código dentro de un bloque <em>Try Except</em>. Si todo sale según lo planeado y obtenemos una respuesta válida, la misma es cargada como un diccionario JSON y finalmente retornada por el método <code>extract_features</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">def</span> extract_features(<span class="va">self</span>, prefix: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">dict</span>:</span>
-<span id="cb5-2"><a href="#cb5-2"></a>    prompt <span class="op">=</span> <span class="ss">f""" (...) """</span></span>
-<span id="cb5-3"><a href="#cb5-3"></a>    </span>
-<span id="cb5-4"><a href="#cb5-4"></a>    <span class="cf">try</span>:</span>
-<span id="cb5-5"><a href="#cb5-5"></a>        response <span class="op">=</span> OpenAIRequest.make_request(prompt)</span>
-<span id="cb5-6"><a href="#cb5-6"></a>        <span class="cf">if</span> response <span class="kw">is</span> <span class="va">None</span>:</span>
-<span id="cb5-7"><a href="#cb5-7"></a>            <span class="va">self</span>.logger.error(<span class="st">"Received invalid response from OpenAI"</span>)</span>
-<span id="cb5-8"><a href="#cb5-8"></a>            <span class="cf">return</span> <span class="va">None</span></span>
-<span id="cb5-9"><a href="#cb5-9"></a>        response <span class="op">=</span> json.loads(response)</span>
-<span id="cb5-10"><a href="#cb5-10"></a>    <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
-<span id="cb5-11"><a href="#cb5-11"></a>        <span class="va">self</span>.logger.error(<span class="ss">f"Exception during API request: </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb5-12"><a href="#cb5-12"></a>        <span class="cf">return</span> <span class="va">None</span></span>
-<span id="cb5-13"><a href="#cb5-13"></a></span>
-<span id="cb5-14"><a href="#cb5-14"></a>    <span class="cf">return</span> response</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="im">import</span> json</span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="im">from</span> modules <span class="im">import</span> setup_logger</span>
+<span id="cb5-3"><a href="#cb5-3"></a></span>
+<span id="cb5-4"><a href="#cb5-4"></a><span class="kw">def</span> extract_features(<span class="va">self</span>, prefix: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">dict</span>:</span>
+<span id="cb5-5"><a href="#cb5-5"></a>    prompt <span class="op">=</span> <span class="ss">f""" (...) """</span></span>
+<span id="cb5-6"><a href="#cb5-6"></a>    </span>
+<span id="cb5-7"><a href="#cb5-7"></a>    <span class="cf">try</span>:</span>
+<span id="cb5-8"><a href="#cb5-8"></a>        response <span class="op">=</span> OpenAIRequest.make_request(prompt)</span>
+<span id="cb5-9"><a href="#cb5-9"></a>        <span class="cf">if</span> response <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb5-10"><a href="#cb5-10"></a>            <span class="va">self</span>.logger.error(<span class="st">"Received invalid response from OpenAI"</span>)</span>
+<span id="cb5-11"><a href="#cb5-11"></a>            <span class="cf">return</span> <span class="va">None</span></span>
+<span id="cb5-12"><a href="#cb5-12"></a>        response <span class="op">=</span> json.loads(response)</span>
+<span id="cb5-13"><a href="#cb5-13"></a>    <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
+<span id="cb5-14"><a href="#cb5-14"></a>        <span class="va">self</span>.logger.error(<span class="ss">f"Exception during API request: </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb5-15"><a href="#cb5-15"></a>        <span class="cf">return</span> <span class="va">None</span></span>
+<span id="cb5-16"><a href="#cb5-16"></a></span>
+<span id="cb5-17"><a href="#cb5-17"></a>    <span class="cf">return</span> response</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="prompt-engineering" class="level3 page-columns page-full">
@@ -477,41 +515,44 @@ gtag('config', 'G-SLRQS7H2TD', { 'anonymize_ip': true});
 </section>
 <section id="zero-shot-feature-extraction" class="level3">
 <h3 class="anchored" data-anchor-id="zero-shot-feature-extraction"><em>Zero-shot feature extraction</em></h3>
-<p>Estamos muy cerca de obtener los resultados que buscamos. Hasta el momento, los módulos que hemos implementado nos permiten enviar consultas hacia las APIs de <em>Twitter</em> y <em>OpenAI</em>, así como descargar <em>batches</em> de <em>tweets</em> que mencionan a los cinco candidatos que encabezaban la encuesta de Prensa Libre, publicada a inicios de mayo. Solo nos falta una forma procesar estos tweets para extraer variables que nos permitan analizarlos a una mayor profundidad. <em>Enter</em> <code>extract_features.py</code>, un programa en el que la clase <code>OpenAIRequest</code> es instanciada dentro de la clase <code>FeatureExtraction</code>.</p>
-<p>En el constructor de la clase se inicializan las rutas a dos archivos: <code>df_path</code> que es la ruta al archivo csv de entrada que contiene los <em>tweets</em>, y <code>results_df_path</code> que es la ruta al archivo csv de salida donde se almacenarán las características extraídas.</p>
-<p>El método principal de esta clase es <code>extract_features</code>. Este método primero carga los <em>tweets</em> del archivo csv de entrada y elimina los duplicados. Luego intenta cargar las características ya extraídas del archivo csv de salida. Si este archivo no existe, se inicializa un nuevo <em>DataFrame</em> vacío. El método luego determina qué <em>tweets</em> aún no han sido procesados comparando los <em>tweets</em> en los dos <em>DataFrames</em> y seleccionando aquellos que solo están en el <em>DataFrame</em> de entrada.</p>
+<p>Estamos muy cerca de obtener los resultados que buscamos. Hasta el momento, los módulos que hemos implementado nos permiten enviar consultas hacia las APIs de <em>Twitter</em> y <em>OpenAI</em>, así como descargar lotes de <em>tweets</em> que mencionan a los cinco candidatos que encabezaban la encuesta de Prensa Libre, publicada a inicios de mayo. Solo nos falta una forma procesar estos tweets para extraer variables que nos permitan analizarlos a una mayor profundidad. <em>Enter</em> <code>extract_features.py</code>, un programa en el que la clase <code>OpenAIRequest</code> es instanciada dentro de la clase <code>FeatureExtraction</code>.</p>
+<p>En el constructor de la clase se inicializan las rutas a dos archivos: <code>df_path</code> que es la ruta al archivo CSV de entrada que contiene los <em>tweets</em>, y <code>results_df_path</code> que es la ruta al archivo csv de salida donde se almacenarán las variables extraídas.</p>
+<p>El principal método de esta clase es <code>extract_features</code>. Este método primero carga los <em>tweets</em> del archivo CSV de entrada y elimina los duplicados. Luego intenta cargar las características ya extraídas del archivo CSV de salida. Si este archivo no existe, se inicializa un nuevo <em>DataFrame</em> vacío. El método luego determina qué <em>tweets</em> aún no han sido procesados comparando los <em>tweets</em> en los dos <em>DataFrames</em> y seleccionando aquellos que solo están en el <em>DataFrame</em> de entrada.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw">def</span> extract_features(<span class="va">self</span>):</span>
-<span id="cb7-2"><a href="#cb7-2"></a>    df <span class="op">=</span> pd.read_csv(<span class="va">self</span>.df_path)</span>
-<span id="cb7-3"><a href="#cb7-3"></a>    df <span class="op">=</span> df.drop_duplicates(subset<span class="op">=</span>[<span class="st">'tw_texto'</span>], keep<span class="op">=</span><span class="st">'first'</span>)</span>
-<span id="cb7-4"><a href="#cb7-4"></a></span>
-<span id="cb7-5"><a href="#cb7-5"></a>    <span class="cf">try</span>:</span>
-<span id="cb7-6"><a href="#cb7-6"></a>        df_results <span class="op">=</span> pd.read_csv(<span class="va">self</span>.results_df_path)</span>
-<span id="cb7-7"><a href="#cb7-7"></a>        df_results <span class="op">=</span> df_results.drop_duplicates(subset<span class="op">=</span>[<span class="st">'tw_texto'</span>], keep<span class="op">=</span><span class="st">'first'</span>)</span>
-<span id="cb7-8"><a href="#cb7-8"></a>    <span class="cf">except</span> <span class="pp">FileNotFoundError</span>:</span>
-<span id="cb7-9"><a href="#cb7-9"></a>        df_results <span class="op">=</span> pd.DataFrame()</span>
-<span id="cb7-10"><a href="#cb7-10"></a></span>
-<span id="cb7-11"><a href="#cb7-11"></a>    df_to_process <span class="op">=</span> df[<span class="op">~</span>df[<span class="st">'tw_texto'</span>].isin(df_results[<span class="st">'tw_texto'</span>])]</span>
-<span id="cb7-12"><a href="#cb7-12"></a>    df_to_process <span class="op">=</span> df_to_process.dropna()</span>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb7-2"><a href="#cb7-2"></a><span class="im">from</span> modules <span class="im">import</span> OpenAIRequest</span>
+<span id="cb7-3"><a href="#cb7-3"></a></span>
+<span id="cb7-4"><a href="#cb7-4"></a><span class="kw">def</span> extract_features(<span class="va">self</span>):</span>
+<span id="cb7-5"><a href="#cb7-5"></a>    df <span class="op">=</span> pd.read_csv(<span class="va">self</span>.df_path)</span>
+<span id="cb7-6"><a href="#cb7-6"></a>    df <span class="op">=</span> df.drop_duplicates(subset<span class="op">=</span>[<span class="st">'tw_texto'</span>], keep<span class="op">=</span><span class="st">'first'</span>)</span>
+<span id="cb7-7"><a href="#cb7-7"></a></span>
+<span id="cb7-8"><a href="#cb7-8"></a>    <span class="cf">try</span>:</span>
+<span id="cb7-9"><a href="#cb7-9"></a>        df_results <span class="op">=</span> pd.read_csv(<span class="va">self</span>.results_df_path)</span>
+<span id="cb7-10"><a href="#cb7-10"></a>        df_results <span class="op">=</span> df_results.drop_duplicates(subset<span class="op">=</span>[<span class="st">'tw_texto'</span>], keep<span class="op">=</span><span class="st">'first'</span>)</span>
+<span id="cb7-11"><a href="#cb7-11"></a>    <span class="cf">except</span> <span class="pp">FileNotFoundError</span>:</span>
+<span id="cb7-12"><a href="#cb7-12"></a>        df_results <span class="op">=</span> pd.DataFrame()</span>
 <span id="cb7-13"><a href="#cb7-13"></a></span>
-<span id="cb7-14"><a href="#cb7-14"></a>    <span class="cf">for</span> index, row <span class="kw">in</span> df_to_process.iterrows():</span>
-<span id="cb7-15"><a href="#cb7-15"></a>        tweet <span class="op">=</span> row[<span class="st">'tw_texto'</span>]</span>
-<span id="cb7-16"><a href="#cb7-16"></a>        response <span class="op">=</span> (</span>
-<span id="cb7-17"><a href="#cb7-17"></a>            OpenAIRequest(tweet)</span>
-<span id="cb7-18"><a href="#cb7-18"></a>            .preprocess_text()</span>
-<span id="cb7-19"><a href="#cb7-19"></a>            .extract_features(prefix<span class="op">=</span><span class="st">'tw_'</span>)</span>
-<span id="cb7-20"><a href="#cb7-20"></a>        )</span>
-<span id="cb7-21"><a href="#cb7-21"></a>        df_result <span class="op">=</span> pd.DataFrame([response], index<span class="op">=</span>[index])</span>
-<span id="cb7-22"><a href="#cb7-22"></a>        df_results <span class="op">=</span> pd.concat([df_results, df_result])</span>
-<span id="cb7-23"><a href="#cb7-23"></a>        df_results.to_csv(<span class="va">self</span>.results_df_path, index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-14"><a href="#cb7-14"></a>    df_to_process <span class="op">=</span> df[<span class="op">~</span>df[<span class="st">'tw_texto'</span>].isin(df_results[<span class="st">'tw_texto'</span>])]</span>
+<span id="cb7-15"><a href="#cb7-15"></a>    df_to_process <span class="op">=</span> df_to_process.dropna()</span>
+<span id="cb7-16"><a href="#cb7-16"></a></span>
+<span id="cb7-17"><a href="#cb7-17"></a>    <span class="cf">for</span> index, row <span class="kw">in</span> df_to_process.iterrows():</span>
+<span id="cb7-18"><a href="#cb7-18"></a>        tweet <span class="op">=</span> row[<span class="st">'tw_texto'</span>]</span>
+<span id="cb7-19"><a href="#cb7-19"></a>        response <span class="op">=</span> (</span>
+<span id="cb7-20"><a href="#cb7-20"></a>            OpenAIRequest(tweet)</span>
+<span id="cb7-21"><a href="#cb7-21"></a>            .preprocess_text()</span>
+<span id="cb7-22"><a href="#cb7-22"></a>            .extract_features(prefix<span class="op">=</span><span class="st">'tw_'</span>)</span>
+<span id="cb7-23"><a href="#cb7-23"></a>        )</span>
+<span id="cb7-24"><a href="#cb7-24"></a>        df_result <span class="op">=</span> pd.DataFrame([response], index<span class="op">=</span>[index])</span>
+<span id="cb7-25"><a href="#cb7-25"></a>        df_results <span class="op">=</span> pd.concat([df_results, df_result])</span>
+<span id="cb7-26"><a href="#cb7-26"></a>        df_results.to_csv(<span class="va">self</span>.results_df_path, index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>A continuación, se procesa cada <em>tweet</em> que aún no ha sido procesado. Para cada uno de ellos, se realiza una solicitud a la API de <em>OpenAI</em> para realizar el procedimiento de <em>feature extraction</em> utilizando al modelo <code>gpt-3.5-turbo</code>. Las características extraídas se añaden al <em>DataFrame</em> de resultados, junto con el <em>tweet</em> original y un <em>tag</em> para identificar a qué candidato se refiere cada publicación.</p>
-<p>Finalmente, después de procesar cada <em>tweet</em>, el <em>DataFrame</em> de resultados se guarda en el archivo csv de salida. Esto se hace después de cada <em>tweet</em> para evitar la pérdida de información en caso de que se produzca un error durante el procesamiento.</p>
+<p>A continuación, se procesa cada <em>tweet</em>. Para cada uno, se realiza una solicitud a la API de <em>OpenAI</em> para realizar el procedimiento de <em>feature extraction</em> utilizando al modelo <code>gpt-3.5-turbo</code>. Las características extraídas se añaden al <em>DataFrame</em> de resultados junto con el <em>tweet</em> original y un <em>tag</em> para identificar a qué candidato se refiere cada publicación.</p>
+<p>Finalmente, después de procesar todos los <em>tweets</em>, el <em>DataFrame</em> de resultados se guarda en el archivo CSV de salida. Esto se hace después de procesar cada <em>tweet</em> para evitar la pérdida de información en caso de que se produzca un error durante el procedimiento.</p>
 </section>
 </section>
 <section id="análisis-de-la-opinión-pública" class="level2 page-columns page-full" data-number="4">
 <h2 data-number="4" class="anchored" data-anchor-id="análisis-de-la-opinión-pública"><span class="header-section-number">4</span> Análisis de la opinión pública</h2>
-<p><em>Cool</em>. Todos los procedimientos anteriores nos llevan a esta situación en la que tenemos un conjunto de datos listo para ser analizado. Como mencioné en algún punto de esta entrada, he publicado <a href="https://github.com/gafnts/2023-election-insights/blob/main/data/tweets_gpt.csv">este <em>dataset</em></a> en un repositorio de <em>GitHub</em>. <em>By all means</em>, síentete libre de descargarlo y hacer tu propio análisis exploratorio de datos. Si lo haces, me encantaría conocer tus descubrimientos. El <em>dataset</em> luce más o menos así:</p>
+<p><em>Cool</em>. Todos los procedimientos anteriores nos llevan a esta situación en la que tenemos un conjunto de datos listo para ser analizado. Como mencioné en algún punto de esta entrada, he publicado <a href="https://github.com/gafnts/2023-election-insights/blob/main/data/tweets_gpt.csv">este <em>dataset</em></a> en un repositorio de <em>GitHub</em>. Síentete libre de descargarlo y hacer tu propio análisis exploratorio de datos; si lo haces, me encantaría conocer qué encuentras. Sin nada más que agregar, el <em>dataset</em> luce así:</p>
 <div class="cell page-columns page-full">
 <div class="cell-output-display column-screen-inset-right">
 
@@ -665,18 +706,288 @@ Te presentamos el episodio número 5 de nuestra sección "El Populista de la Sem
 
 </div>
 </div>
+<section id="explorando-el-dataset" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="explorando-el-dataset">Explorando el <em>dataset</em></h3>
+<p>Como podemos ver, la información extraída considera básicamente las últimas dos semanas del mes de marzo.</p>
+<div class="cell">
+<details>
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb8-2"><a href="#cb8-2"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb8-3"><a href="#cb8-3"></a><span class="fu">library</span>(kableExtra)</span>
+<span id="cb8-4"><a href="#cb8-4"></a></span>
+<span id="cb8-5"><a href="#cb8-5"></a>fechas <span class="ot">&lt;-</span> </span>
+<span id="cb8-6"><a href="#cb8-6"></a>  df <span class="sc">|&gt;</span> </span>
+<span id="cb8-7"><a href="#cb8-7"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb8-8"><a href="#cb8-8"></a>    <span class="st">`</span><span class="at">Fecha inicial</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">min</span>(fecha),</span>
+<span id="cb8-9"><a href="#cb8-9"></a>    <span class="st">`</span><span class="at">Fecha final</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">max</span>(fecha)</span>
+<span id="cb8-10"><a href="#cb8-10"></a>  )</span>
+<span id="cb8-11"><a href="#cb8-11"></a></span>
+<span id="cb8-12"><a href="#cb8-12"></a><span class="fu">kable</span>(fechas, <span class="at">align =</span> <span class="st">"c"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb8-13"><a href="#cb8-13"></a>  <span class="fu">kable_styling</span>(</span>
+<span id="cb8-14"><a href="#cb8-14"></a>    <span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">"striped"</span>, <span class="st">"hover"</span>, <span class="st">"condensed"</span>), </span>
+<span id="cb8-15"><a href="#cb8-15"></a>    <span class="at">full_width =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb8-16"><a href="#cb8-16"></a>    <span class="at">font_size =</span> <span class="dv">13</span></span>
+<span id="cb8-17"><a href="#cb8-17"></a>  )</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+
+<table class="table table-striped table-hover table-condensed" style="font-size: 13px; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:center;"> Fecha inicial </th>
+   <th style="text-align:center;"> Fecha final </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:center;"> 2023-05-15 </td>
+   <td style="text-align:center;"> 2023-05-27 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<p>Durante los procedimientos de extracción se definió la misma cantidad de <em>tweets</em> para cada candidato. Sin embargo, al eliminar <em>tweets</em> duplicados podemos notar que, durante el periodo de tiempo del análisis, las personas en <em>Twitter</em> hablaron casi cuatro veces más de Carlos Pineda (quien, para el momento de la extracción de tweets, aún seguía participando en la contienda electoral) que de Manuel Conde.</p>
+<div class="cell">
+<details>
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>df <span class="sc">|&gt;</span> </span>
+<span id="cb9-2"><a href="#cb9-2"></a>  <span class="fu">group_by</span>(candidato) <span class="sc">|&gt;</span> </span>
+<span id="cb9-3"><a href="#cb9-3"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb9-4"><a href="#cb9-4"></a>    <span class="at">count =</span> <span class="fu">n</span>()</span>
+<span id="cb9-5"><a href="#cb9-5"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb9-6"><a href="#cb9-6"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="fu">reorder</span>(candidato, <span class="sc">-</span>count), count, <span class="at">fill =</span> candidato)) <span class="sc">+</span></span>
+<span id="cb9-7"><a href="#cb9-7"></a>  <span class="fu">geom_col</span>(<span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb9-8"><a href="#cb9-8"></a>  <span class="fu">labs</span>(</span>
+<span id="cb9-9"><a href="#cb9-9"></a>    <span class="at">title =</span> <span class="st">"Cantidad de tweets por candidato"</span></span>
+<span id="cb9-10"><a href="#cb9-10"></a>  ) <span class="sc">+</span></span>
+<span id="cb9-11"><a href="#cb9-11"></a>  <span class="fu">theme</span>(</span>
+<span id="cb9-12"><a href="#cb9-12"></a>    <span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb9-13"><a href="#cb9-13"></a>    <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb9-14"><a href="#cb9-14"></a>    <span class="at">legend.title =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb9-15"><a href="#cb9-15"></a>    <span class="at">legend.position =</span> <span class="st">"bottom"</span></span>
+<span id="cb9-16"><a href="#cb9-16"></a>  ) <span class="sc">+</span></span>
+<span id="cb9-17"><a href="#cb9-17"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> palette)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell page-columns page-full">
+
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+
+<table class="table table-striped table-hover table-condensed" style="font-size: 13px; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:center;"> Candidato </th>
+   <th style="text-align:center;"> Engagement </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:center;"> carlos pineda </td>
+   <td style="text-align:center;"> 0.8963113 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> edmond mulet </td>
+   <td style="text-align:center;"> 1.4452980 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> manuel conde </td>
+   <td style="text-align:center;"> 1.6900648 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> sandra torres </td>
+   <td style="text-align:center;"> 1.4844873 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> zury rios </td>
+   <td style="text-align:center;"> 1.9128208 </td>
+  </tr>
+</tbody>
+</table>
+
+</div></div></div>
+<p>Pero no solo podemos fijarnos en la cantidad de <em>tweets</em> que mencionan a los candidatos, sería importante también considerar la calidad de estas publicaciones. Para ello, vamos a computar el <em>engagement rate</em> de cada publicación, definido como la suma de interacciones (<em>retweets</em>, <em>replies</em>, <em>likes</em> y <em>quotes</em>) de cada <em>tweet</em>, dividida entre la cantidad de impresiones que la publicación tuvo. Curiosamente, los <em>tweets</em> que mencionan a Carlos Pineda son los que tienen un menor <em>engagement</em>. Mmm, muchos <em>tweets</em> con poco <em>engagement</em>… ¿a ustedes también les suena raro?</p>
+<p>La siguiente gráfica muestra la distribución del logaritmo del <em>engagement rate</em> por cada uno de los candidatos. Parece que hablar de Zury Ríos es una buena forma de conseguir atención. Aunque no por mucho. En promedio, solo el 1.9% de las impresiones de los <em>tweets</em> que hablaban de Zury Ríos resultaron en algún tipo de interacción.</p>
+<div class="cell">
+<details>
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>df <span class="sc">|&gt;</span> </span>
+<span id="cb10-2"><a href="#cb10-2"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb10-3"><a href="#cb10-3"></a>    <span class="at">engagement =</span> <span class="fu">log</span>(((retweets <span class="sc">+</span> replies <span class="sc">+</span> likes <span class="sc">+</span> quotes) <span class="sc">/</span> impresiones <span class="sc">*</span> <span class="dv">100</span>))</span>
+<span id="cb10-4"><a href="#cb10-4"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb10-5"><a href="#cb10-5"></a>  <span class="fu">group_by</span>(candidato) <span class="sc">|&gt;</span> </span>
+<span id="cb10-6"><a href="#cb10-6"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(engagement, candidato, <span class="at">fill =</span> candidato)) <span class="sc">+</span></span>
+<span id="cb10-7"><a href="#cb10-7"></a>  <span class="fu">geom_boxplot</span>(<span class="at">alpha =</span> <span class="fl">0.6</span>, ) <span class="sc">+</span></span>
+<span id="cb10-8"><a href="#cb10-8"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Logaritmo de la tasa de engagement por cada candidato"</span>) <span class="sc">+</span></span>
+<span id="cb10-9"><a href="#cb10-9"></a>  <span class="fu">theme</span>(</span>
+<span id="cb10-10"><a href="#cb10-10"></a>    <span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb10-11"><a href="#cb10-11"></a>    <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb10-12"><a href="#cb10-12"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb10-13"><a href="#cb10-13"></a>    <span class="at">axis.ticks.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb10-14"><a href="#cb10-14"></a>    <span class="at">legend.title =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb10-15"><a href="#cb10-15"></a>    <span class="at">legend.position =</span> <span class="st">"bottom"</span></span>
+<span id="cb10-16"><a href="#cb10-16"></a>  ) <span class="sc">+</span></span>
+<span id="cb10-17"><a href="#cb10-17"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> palette) </span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="analizando-sentimientos" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="analizando-sentimientos">Analizando sentimientos</h3>
+<p>Obviamente, lo más interesante de este análisis es utilizar las variables que fueron generadas por <code>gpt-3.5-turbo</code>. Podemos empezar por preguntarnos si existe alguna relación entre la cantidad de interacciones y la valencia (el sentimiento general) del <em>tweet</em>. Y <em>my oh my</em>, resulta que sí.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>One-way ANOVA</p>
+<div class="cell">
+<div class="cell-output-display">
+
+<table class="table table-striped table-hover table-condensed" style="font-size: 13px; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:center;"> term </th>
+   <th style="text-align:center;"> statistic </th>
+   <th style="text-align:center;"> p.value </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:center;"> retweets </td>
+   <td style="text-align:center;"> 9.241632 </td>
+   <td style="text-align:center;"> 0.0001029 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> replies </td>
+   <td style="text-align:center;"> 2.783355 </td>
+   <td style="text-align:center;"> 0.0621688 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div></div><div class="page-columns page-full"><p><em>Tweets</em> con sentimiento negativo tienen más <em>retweets</em> en promedio, mientras que publicaciones con sentimiento positivo tienen, en promedio, más cantidad de respuestas. De hecho, la diferencia entre las medias del logaritmo de la cantidad de <em>retweets</em> segregados por la valencia es estadísticamente significativa, como lo muestra la tabla al margen de esta sección, en la que he realizado un análisis de varianza, tanto para los <em>tweets</em> como para las respuestas.<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a></p><div class="no-row-height column-margin column-container"><li id="fn7"><p><sup>7</sup>&nbsp;Sin embargo, no es posible rechazar la hipótesis nula para el caso de las respuestas. Pero esto a todas luces es debido a que las medias del logaritmo de la cantidad de respuestas para <em>tweets</em> con sentimiento negativo y neutro son prácticamente iguales.</p></li></div></div>
+<div class="cell">
+<details>
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb11-2"><a href="#cb11-2"></a></span>
+<span id="cb11-3"><a href="#cb11-3"></a>retweets <span class="ot">&lt;-</span> </span>
+<span id="cb11-4"><a href="#cb11-4"></a>  df <span class="sc">|&gt;</span> </span>
+<span id="cb11-5"><a href="#cb11-5"></a>  <span class="fu">group_by</span>(candidato) <span class="sc">|&gt;</span> </span>
+<span id="cb11-6"><a href="#cb11-6"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(valencia, <span class="fu">log</span>(retweets), <span class="at">fill =</span> valencia)) <span class="sc">+</span></span>
+<span id="cb11-7"><a href="#cb11-7"></a>  <span class="fu">geom_boxplot</span>(<span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb11-8"><a href="#cb11-8"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Logaritmo de la cantidad de retweets"</span>) <span class="sc">+</span></span>
+<span id="cb11-9"><a href="#cb11-9"></a>  <span class="fu">theme</span>(</span>
+<span id="cb11-10"><a href="#cb11-10"></a>    <span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb11-11"><a href="#cb11-11"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb11-12"><a href="#cb11-12"></a>    <span class="at">axis.ticks.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb11-13"><a href="#cb11-13"></a>    <span class="at">legend.title =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb11-14"><a href="#cb11-14"></a>    <span class="at">legend.position =</span> <span class="st">"none"</span></span>
+<span id="cb11-15"><a href="#cb11-15"></a>  ) <span class="sc">+</span></span>
+<span id="cb11-16"><a href="#cb11-16"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> palette) </span>
+<span id="cb11-17"><a href="#cb11-17"></a></span>
+<span id="cb11-18"><a href="#cb11-18"></a>replies <span class="ot">&lt;-</span> </span>
+<span id="cb11-19"><a href="#cb11-19"></a>  df <span class="sc">|&gt;</span> </span>
+<span id="cb11-20"><a href="#cb11-20"></a>  <span class="fu">group_by</span>(candidato) <span class="sc">|&gt;</span> </span>
+<span id="cb11-21"><a href="#cb11-21"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(valencia, <span class="fu">log</span>(replies), <span class="at">fill =</span> valencia)) <span class="sc">+</span></span>
+<span id="cb11-22"><a href="#cb11-22"></a>  <span class="fu">geom_boxplot</span>(<span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb11-23"><a href="#cb11-23"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Logaritmo de la cantidad de replies"</span>) <span class="sc">+</span></span>
+<span id="cb11-24"><a href="#cb11-24"></a>  <span class="fu">theme</span>(</span>
+<span id="cb11-25"><a href="#cb11-25"></a>    <span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb11-26"><a href="#cb11-26"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb11-27"><a href="#cb11-27"></a>    <span class="at">axis.ticks.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb11-28"><a href="#cb11-28"></a>    <span class="at">legend.title =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb11-29"><a href="#cb11-29"></a>    <span class="at">legend.position =</span> <span class="st">"none"</span></span>
+<span id="cb11-30"><a href="#cb11-30"></a>  ) <span class="sc">+</span></span>
+<span id="cb11-31"><a href="#cb11-31"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> palette) </span>
+<span id="cb11-32"><a href="#cb11-32"></a></span>
+<span id="cb11-33"><a href="#cb11-33"></a>retweets <span class="sc">+</span> replies <span class="sc">+</span> </span>
+<span id="cb11-34"><a href="#cb11-34"></a>  <span class="fu">plot_annotation</span>(<span class="st">"Relación entre los tipos de interacción y la valencia del mensaje"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Otra pregunta importante es cómo se relacionan la controversialidad de los tweets—definida aquí como el potencial de una publicación para generar desacuerdo—y la cantidad de veces que son retuiteados. Podríamos esperar que a mayor controversialidad, mayor sea la probabilidad de obtener más retweets. Esta hipótesis parece confirmarse al observar las regresiones polinomiales locales ajustadas para cada candidato, que demuestran una relación positiva entre la controversialidad y la cantidad de retweets.</p>
+<p>En estas regresiones, hemos incluido la puntuación de controversialidad de los tweets, calculada utilizando el modelo GPT durante la extracción de características. En general, los resultados sugieren que los <em>tweets</em> más controvertidos tienden a ser retuiteados con mayor frecuencia para cada uno de los cinco candidatos en nuestro análisis, en promedio.</p>
+<div class="cell">
+<details>
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>df <span class="sc">|&gt;</span> </span>
+<span id="cb12-2"><a href="#cb12-2"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(controversialidad, <span class="fu">log</span>(retweets), <span class="at">color =</span> candidato)) <span class="sc">+</span> </span>
+<span id="cb12-3"><a href="#cb12-3"></a>  <span class="fu">geom_jitter</span>(<span class="at">height =</span> <span class="fl">0.3</span>, <span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span> </span>
+<span id="cb12-4"><a href="#cb12-4"></a>  <span class="fu">geom_smooth</span>(<span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb12-5"><a href="#cb12-5"></a>  <span class="fu">labs</span>(</span>
+<span id="cb12-6"><a href="#cb12-6"></a>    <span class="at">title =</span> <span class="st">"Relación entre la controversialidad y el logaritmo de la cantidad de retweets"</span>,</span>
+<span id="cb12-7"><a href="#cb12-7"></a>    <span class="at">x =</span> <span class="st">"Controversialidad del tweet"</span>,</span>
+<span id="cb12-8"><a href="#cb12-8"></a>    <span class="at">y =</span> <span class="st">"Logaritmo de la cantidad de retweets"</span></span>
+<span id="cb12-9"><a href="#cb12-9"></a>  ) <span class="sc">+</span></span>
+<span id="cb12-10"><a href="#cb12-10"></a>  <span class="fu">theme</span>(</span>
+<span id="cb12-11"><a href="#cb12-11"></a>    <span class="at">legend.title =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb12-12"><a href="#cb12-12"></a>    <span class="at">legend.position =</span> <span class="st">"bottom"</span></span>
+<span id="cb12-13"><a href="#cb12-13"></a>  ) <span class="sc">+</span></span>
+<span id="cb12-14"><a href="#cb12-14"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> palette) </span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Para finalizar nuestro análisis, representamos gráficamente la distribución de los <em>tweets</em> divididos en cuatro categorías emocionales: aprobación, desaprobación, esperanza e indiferencia. De forma general, se observa una predominancia de la desaprobación en todos los candidatos analizados, con un promedio del 66 por ciento.</p>
+<p>Sandra Torres encabeza esta tendencia, casi un 80 por ciento de los <em>tweets</em> en los que se le menciona reflejan desaprobación. Al mismo tiempo, Torres presenta la segunda menor proporción de <em>tweets</em> con tono de aprobación, siendo solo superada por Carlos Pineda. En cuanto a la indiferencia, Manuel Conde es el candidato que acumula la mayor cantidad de <em>tweets</em> bajo esta postura, en comparación con los demás contendientes.</p>
+<div class="cell">
+<details>
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>df <span class="sc">|&gt;</span> </span>
+<span id="cb13-2"><a href="#cb13-2"></a>  <span class="fu">group_by</span>(candidato, postura) <span class="sc">|&gt;</span> </span>
+<span id="cb13-3"><a href="#cb13-3"></a>  <span class="fu">summarise</span>(<span class="at">cantidad =</span> <span class="fu">n</span>()) <span class="sc">|&gt;</span> </span>
+<span id="cb13-4"><a href="#cb13-4"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(postura, <span class="st">"aprobación|desaprobación|esperanza|indiferencia"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb13-5"><a href="#cb13-5"></a>  <span class="fu">mutate</span>(<span class="at">cantidad =</span> cantidad <span class="sc">/</span> <span class="fu">sum</span>(cantidad)) <span class="sc">|&gt;</span> </span>
+<span id="cb13-6"><a href="#cb13-6"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="fu">reorder</span>(candidato, cantidad), cantidad, <span class="at">fill =</span> postura)) <span class="sc">+</span></span>
+<span id="cb13-7"><a href="#cb13-7"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">"dodge"</span>, <span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb13-8"><a href="#cb13-8"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Proporción de tweets por candidato según la postura del usuario"</span>) <span class="sc">+</span></span>
+<span id="cb13-9"><a href="#cb13-9"></a>  <span class="fu">theme</span>(</span>
+<span id="cb13-10"><a href="#cb13-10"></a>    <span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb13-11"><a href="#cb13-11"></a>    <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb13-12"><a href="#cb13-12"></a>    <span class="at">legend.title =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb13-13"><a href="#cb13-13"></a>    <span class="at">legend.position =</span> <span class="st">"bottom"</span></span>
+<span id="cb13-14"><a href="#cb13-14"></a>  ) <span class="sc">+</span></span>
+<span id="cb13-15"><a href="#cb13-15"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> palette) </span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
 </section>
 <section id="conclusiones" class="level2" data-number="5">
 <h2 data-number="5" class="anchored" data-anchor-id="conclusiones"><span class="header-section-number">5</span> Conclusiones</h2>
+<p>Durante esta entrada, utilizamos la API de <em>Twitter</em> y la API de <em>OpenAI</em> para decodificar los sentimientos de los usuarios de <em>Twitter</em> en torno a cinco candidatos presidenciales en la contienda electoral de 2023 en Guatemala. Este estudio demostró la eficacia de las tecnologías avanzadas en la comprensión de la dinámica social y política, ilustrando cómo <em>foundation models</em> como <code>gpt-3.5-turbo</code> pueden emplearse para extraer características valiosas y generar <em>insights</em> significativos.</p>
+<p>Descargamos <em>tweets</em> que mencionan a los candidatos mediante la <em>Twitter API V2</em> y los utilizamos como nuestro conjunto de datos base. Luego, extraímos características de los <em>tweets</em> utilizando la API de <em>OpenAI</em> y realizamos una exploración inicial de los resultados con R.</p>
+<p>Mis reflexiones personales tras realizar estos experimentos se resumen en los siguientes puntos:</p>
 <ul>
-<li>Los tiempos de inferencia son altos, así que los límites de la API de OpenAI son bastante bondadosos.</li>
+<li><p>Primero, al interactuar con APIs, la robustez es clave. La capacidad de gestionar eficazmente errores y excepciones es fundamental. Un estudio de <span class="citation" data-cites="papasian2020a">Papasian &amp; Underwood (<a href="#ref-papasian2020a" role="doc-biblioref">2020</a>)</span>, dos ingenieros de aprendizaje automático en <em>Google</em>, destaca que la mayoría de los problemas en sistemas de <em>machine learning</em> no se deben a la implementación de los modelos <em>per se</em>, sino a fallas en los flujos de trabajo de los <em>data pipelines</em>.</p></li>
+<li><p>En segundo lugar, mis experiencias con la API de <em>OpenAI</em> han revelado que, si bien GPT es bastante competente en la mayoría de las tareas que he probado, tiene sus limitaciones. Una desventaja notable es el fenómeno popularmente conocido como “alucinaciones”. En <em>edge cases</em> (situaciones inusuales dentro del contenido de los <em>prompts</em> que se envían al modelo), este tiende a inventar nuevas categorías que pueden parecer más adecuadas para el texto, pero que introducen etiquetas que, en teoría, no deberían existir en el conjunto de datos.</p></li>
+<li><p>Por último, hay que tener en cuenta que los tiempos de inferencia son relativamente largos. Esto plantea desafíos de escalabilidad al usar este modelo como método de procesamiento, especialmente a medida que el conjunto de datos se expande.</p></li>
 </ul>
+<p>Este estudio evidencia el emocionante cruce entre las ciencias de la computación y las ciencias sociales, y cómo esta intersección permite generar <em>insights</em> de eventos significativos a través de tecnologías avanzadas. Pese a los desafíos, el resultado es un conjunto de datos valiosos y un análisis significativo de las opiniones de los votantes sobre los candidatos presidenciales.</p>
+
 
 
 </section>
 
 
-</main> <!-- /main -->
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">Referencias</h2><div id="refs" class="references csl-bib-body hanging-indent" data-line-spacing="2" role="doc-bibliography">
+<div id="ref-papasian2020a" class="csl-entry" role="doc-biblioentry">
+Papasian, D., &amp; Underwood, T. (2020). <em>How <span></span>ML<span></span> Breaks: A Decade of Outages for One Large <span></span>ML<span></span> Pipeline</em>. <a href="https://www.usenix.org/conference/opml20/presentation/papasian">https://www.usenix.org/conference/opml20/presentation/papasian</a>
+</div>
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

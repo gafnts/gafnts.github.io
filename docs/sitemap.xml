@@ -2,11 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://gafnts.github.io/index.html</loc>
-    <lastmod>2023-06-01T01:37:57.022Z</lastmod>
+    <lastmod>2023-06-13T01:17:39.658Z</lastmod>
   </url>
   <url>
     <loc>https://gafnts.github.io/about.html</loc>
-    <lastmod>2023-05-29T04:01:52.967Z</lastmod>
+    <lastmod>2023-06-06T22:30:35.323Z</lastmod>
   </url>
   <url>
     <loc>https://gafnts.github.io/posts/Modelos-gravitacionales-y-la-nueva-economía-geográfica/index.html</loc>
@@ -51,5 +51,9 @@
   <url>
     <loc>https://gafnts.github.io/posts/Revelando los Sentimientos Guatemaltecos/index.html</loc>
     <lastmod>2023-06-01T01:37:56.365Z</lastmod>
+  </url>
+  <url>
+    <loc>https://gafnts.github.io/posts/election-insights/index.html</loc>
+    <lastmod>2023-06-13T01:17:38.987Z</lastmod>
   </url>
 </urlset>
