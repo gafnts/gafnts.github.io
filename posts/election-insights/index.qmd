@@ -26,7 +26,7 @@ Desde hace varios años, la intersección entre las ciencias de la computación 
 
 Okay. Cartas sobre la mesa. Implementar estos programas ha conllevado bastante de mi tiempo libre en las últimas semanas; estoy seguro de que leer todos los detalles sobre estas implementaciones también requeriría de una cantidad de tiempo considerable, por lo que en esta y la siguiente sección únicamente haremos un repaso por los puntos más importantes[^1].
 
-[^1]: Para los lectores más interesados he publicado [este repositorio](https://github.com/gafnts/2023-election-insights) en el es posible encontrar todos los programas y módulos utilizados para generar estos resultados. Las clases y sus métodos fueron debidamente documentados, pero siéntete libre de contactarme si te gustaría saber más sobre los detalles de estas implementaciones.
+[^1]: Para los lectores más interesados he publicado [este repositorio](https://github.com/gafnts/2023-election-insights) en el es posible encontrar todos los módulos utilizados para generar estos resultados. Las clases y sus métodos fueron debidamente documentados, pero siéntete libre de contactarme si te gustaría saber más sobre los detalles de estas implementaciones.
 
 ### Enviando *requests* hacia la API
 
@@ -87,11 +87,11 @@ def make_request(self) -> "TwitterRequest":
     return self
 ```
 
-El mismo método define el *query* que se llevará a cabo, que en nuestro caso es un *string* con el nombre del candidato mencionado en los *tweets*, pero instruimos a la API para que no devuelva *tweets* que sean *retweets* o respuestas (`f"{self.query} -is:retweet -is:reply"`). En la solicitud, se incluyen campos específicos de los tweets y del usuario que los publicó. Por ejemplo, del *tweet* se solicita el ID, el autor, la fecha de creación, el texto, las métricas como cantidad de *retweets*, *likes* o respuestas, así como si la publicación tienen contenido sensible y cuál es su idioma. Del usuario solicitamos el ID, el nombre de usuario, el nombre, la ubicación, la fecha de creación del perfil, la descripción, la imagen de perfil, sus métricas públicas y si su perfil está verificado o no[^2].
+El mismo método define el *query* que se llevará a cabo, que en nuestro caso es un *string* con el nombre del candidato mencionado en los *tweets*, pero instruimos a la API para que no devuelva *tweets* que sean *retweets* o respuestas (`f"{self.query} -is:retweet -is:reply"`). En la solicitud, se incluyen campos específicos de los tweets y del usuario que los publicó. Por ejemplo, del *tweet* se solicita el ID, el autor, la fecha de creación, el texto, las métricas como cantidad de *retweets*, *likes* o respuestas, así como si la publicación tiene contenido sensible y cuál es su idioma. Del usuario solicitamos su ID, su *handle*, su nombre, la ubicación, la fecha de creación del perfil, la descripción, la imagen de perfil, sus métricas públicas y si su perfil está verificado o no[^2].
 
-[^2]: Aunque mis procedimientos extrajeron toda esta información para más de 5,000 tweets que fueron publicados por múltiples usuarios durante las últimas dos semanas, el *Developer Agreement and Policy* de *Twitter* me prohibe publicar la totalidad de la información. Sin embargo, he publicado un [dataset reducido](https://github.com/gafnts/2023-election-insights/blob/main/data/tweets_gpt.csv) que contiene 1,420 tweets con sus respectivas métricas públicas y las características extraídas utilizando al modelo de lenguaje.
+[^2]: Aunque mis procedimientos extrajeron toda esta información para más de 5,000 tweets que fueron publicados por múltiples usuarios durante las últimas dos semanas del mes de mayo, el *Developer Agreement and Policy* de *Twitter* me prohibe publicar la totalidad de la información. Sin embargo, he publicado un [dataset reducido](https://github.com/gafnts/2023-election-insights/blob/main/data/tweets_gpt.csv) que contiene 1,420 tweets con sus respectivas métricas públicas y las características extraídas utilizando al modelo de lenguaje.
 
-Si la solicitud es exitosa, se obtiene cierta cantidad de *tweets* que son almacenados en el atributo `self.tweets`. Si no se obtiene ningún *tweet*, se registra un error en el *log*. Si ocurre alguna otra excepción durante la solicitud, también se registra en el *log* y es levantada para que pueda ser manejada por el decorador encargado de hacer exponential *backoff*. Por último, si la solicitud se completó con éxito, registramos este hecho en el *log* y retornamos al objeto `self`, para darnos la posibilidad de hacer [*method chaining*](https://stackoverflow.com/questions/41817578/basic-method-chaining).
+Si la solicitud es exitosa, se obtiene cierta cantidad de *tweets* que son almacenados en el atributo `self.tweets`. Si no se obtiene ninguno, se registra un error en el *log*. Si ocurre alguna otra excepción durante la solicitud, también se registra en el *log* y es levantada para que pueda ser manejada por el decorador encargado de hacer exponential *backoff*. Por último, si la solicitud se completó con éxito, registramos este hecho en el *log* y retornamos al objeto `self`, para darnos la posibilidad de hacer [*method chaining*](https://stackoverflow.com/questions/41817578/basic-method-chaining).
 
 De esta forma, utilizar la clase `TwitterRequest` requiere únicamente de inicializarla con los parámetros `query`, `start_time`, `end_time` y `max_results`. *Like so*:
 
@@ -165,7 +165,7 @@ def download_tweets(self) -> Tuple[pd.DataFrame, pd.DataFrame]:
 
 ## *Zero-shot feature extraccion* con GPT-3.5
 
-Ahora viene una de mis partes favoritas en este proceso. Vamos a usar a GPT-3.5 para generar nuevas *features* basadas en los *tweets* que hemos extraído. ¿Cómo? *Much in the same way we downloaded tweets*, usando una clase llamada `OpenAIRequest` (que se encargará de comunicarse con la API) y otra, llamada `FeatureExtraction`, que nos servirá para iterar en las filas del *DataFrame* que contiene las publicaciones de los usuarios de *Twitter*.
+Ahora viene una de mis partes favoritas en este proceso. Vamos a usar a GPT-3.5 para generar nuevas *features* basadas en los *tweets* que hemos extraído. ¿Cómo? *Much in the same way we downloaded tweets*, usando una clase llamada `OpenAIRequest` (que se encargará de comunicarse con la API) y otra, llamada `FeatureExtraction`, que nos servirá para procesar las filas del *DataFrame* que contiene las publicaciones de los usuarios de *Twitter*.
 
 ### Enviando *requests* hacia la API
 
@@ -236,7 +236,7 @@ Tengo que confesar algo. Hace unas semanas leí en una publicación de *LinkedIn
 
 *Nontheless*, considero que cuando vamos un paso más allá y utilizamos estos modelos desde los *endpoints* que *OpenAI* pone a nuestra disposición, el *hype* que existe hacia el término está un poco más justificado. Principalmente porque, aunque redactamos la instrucción en lenguaje natural, el procedimiento recuerda mucho a definir una serie de pasos en cualquier lenguaje de programación.
 
-Para nuestros fines, este *prompt* dio buenos resultados:
+Sea como sea que querramos llamarle, para nuestros fines este *prompt* dio buenos resultados:
 
 ::: column-page-right
 ::: {.callout-tip appearance="simple"}
@@ -275,7 +275,7 @@ Tweet: '''{self.tweet}'''
 
 Estamos muy cerca de obtener los resultados que buscamos. Hasta el momento, los módulos que hemos implementado nos permiten enviar consultas hacia las APIs de *Twitter* y *OpenAI*, así como descargar lotes de *tweets* que mencionan a los cinco candidatos que encabezaban la encuesta de Prensa Libre, publicada a inicios de mayo. Solo nos falta una forma procesar estos tweets para extraer variables que nos permitan analizarlos a una mayor profundidad. *Enter* `extract_features.py`, un programa en el que la clase `OpenAIRequest` es instanciada dentro de la clase `FeatureExtraction`.
 
-En el constructor de la clase se inicializan las rutas a dos archivos: `df_path` que es la ruta al archivo CSV de entrada que contiene los *tweets*, y `results_df_path` que es la ruta al archivo csv de salida donde se almacenarán las variables extraídas.
+En el constructor de la clase se inicializan las rutas a dos archivos: `df_path` que es la ruta al archivo CSV de entrada que contiene los *tweets*, y `results_df_path` que es la ruta al archivo CSV de salida donde se almacenarán las variables extraídas.
 
 El principal método de esta clase es `extract_features`. Este método primero carga los *tweets* del archivo CSV de entrada y elimina los duplicados. Luego intenta cargar las características ya extraídas del archivo CSV de salida. Si este archivo no existe, se inicializa un nuevo *DataFrame* vacío. El método luego determina qué *tweets* aún no han sido procesados comparando los *tweets* en los dos *DataFrames* y seleccionando aquellos que solo están en el *DataFrame* de entrada.
 
@@ -312,11 +312,11 @@ def extract_features(self):
 
 A continuación, se procesa cada *tweet*. Para cada uno, se realiza una solicitud a la API de *OpenAI* para realizar el procedimiento de *feature extraction* utilizando al modelo `gpt-3.5-turbo`. Las características extraídas se añaden al *DataFrame* de resultados junto con el *tweet* original y un *tag* para identificar a qué candidato se refiere cada publicación.
 
-Finalmente, después de procesar todos los *tweets*, el *DataFrame* de resultados se guarda en el archivo CSV de salida. Esto se hace después de procesar cada *tweet* para evitar la pérdida de información en caso de que se produzca un error durante el procedimiento.
+Finalmente, el *DataFrame* de resultados se guarda en el archivo CSV de salida. Esto se hace después de procesar cada *tweet* para evitar la pérdida de información en caso de que se produzca un error durante el procedimiento.
 
 ## Análisis de la opinión pública
 
-*Cool*. Todos los procedimientos anteriores nos llevan a esta situación en la que tenemos un conjunto de datos listo para ser analizado. Como mencioné en algún punto de esta entrada, he publicado [este *dataset*](https://github.com/gafnts/2023-election-insights/blob/main/data/tweets_gpt.csv) en un repositorio de *GitHub*. Síentete libre de descargarlo y hacer tu propio análisis exploratorio de datos; si lo haces, me encantaría conocer qué encuentras. Sin nada más que agregar, el *dataset* luce así:
+*Cool*. Todo esto nos lleva a una situación en la que tenemos un conjunto de datos listo para ser analizado. Como mencioné en algún punto de esta entrada, he publicado [este *dataset*](https://github.com/gafnts/2023-election-insights/blob/main/data/tweets_gpt.csv) en un repositorio de *GitHub*. Síentete libre de descargarlo y hacer tu propio análisis exploratorio de datos; si lo haces, me encantaría conocer qué encuentras. Sin nada más que agregar, el *dataset* luce así:
 
 ```{r}
 #| echo: false
@@ -581,16 +581,16 @@ df |>
 
 ## Conclusiones
 
-Durante esta entrada, utilizamos la API de *Twitter* y la API de *OpenAI* para decodificar los sentimientos de los usuarios de *Twitter* en torno a cinco candidatos presidenciales en la contienda electoral de 2023 en Guatemala. Este estudio demostró la eficacia de las tecnologías avanzadas en la comprensión de la dinámica social y política, ilustrando cómo *foundation models* como `gpt-3.5-turbo` pueden emplearse para extraer características valiosas y generar *insights* significativos.
-
-Descargamos *tweets* que mencionan a los candidatos mediante la *Twitter API V2* y los utilizamos como nuestro conjunto de datos base. Luego, extraímos características de los *tweets* utilizando la API de *OpenAI* y realizamos una exploración inicial de los resultados con R.
+Durante esta entrada, utilizamos la API de *Twitter* y la API de *OpenAI* para decodificar los sentimientos de los usuarios de *Twitter* en torno a cinco candidatos presidenciales en la contienda electoral de 2023 en Guatemala. Este ejercicio demostró la eficacia de tecnologías avanzadas en la comprensión de la dinámica social y política, ilustrando cómo *foundation models* como `gpt-3.5-turbo` pueden emplearse para extraer características valiosas que permitan generar *insights* significativos.
 
 Mis reflexiones personales tras realizar estos experimentos se resumen en los siguientes puntos:
 
--   Primero, al interactuar con APIs, la robustez es clave. La capacidad de gestionar eficazmente errores y excepciones es fundamental. Un estudio de @papasian2020a, dos ingenieros de aprendizaje automático en *Google*, destaca que la mayoría de los problemas en sistemas de *machine learning* no se deben a la implementación de los modelos *per se*, sino a fallas en los flujos de trabajo de los *data pipelines*.
+-   Primero, al interactuar con APIs, la robustez es clave. La capacidad de gestionar eficazmente errores y excepciones es fundamental. Un estudio de @papasian2020b, dos ingenieros de aprendizaje automático en *Google*, destaca que la mayoría de los problemas en sistemas de *machine learning* no se deben a la implementación de los modelos *per se*, sino a fallas en los flujos de trabajo de los *data pipelines*.
 
--   En segundo lugar, mis experiencias con la API de *OpenAI* han revelado que, si bien GPT es bastante competente en la mayoría de las tareas que he probado, tiene sus limitaciones. Una desventaja notable es el fenómeno popularmente conocido como "alucinaciones". En *edge cases* (situaciones inusuales dentro del contenido de los *prompts* que se envían al modelo), este tiende a inventar nuevas categorías que pueden parecer más adecuadas para el texto, pero que introducen etiquetas que, en teoría, no deberían existir en el conjunto de datos.
+-   En segundo lugar, tras utilizar en múltiples ocasiones la API de *OpenAI*, he comprobado que, a pesar de que GPT se ha desempeñado de manera competente en la mayoría de tareas en las que lo he puesto a prueba, el modelo tiene ciertas limitaciones significativas. Una de las desventajas más notables es el fenómeno conocido popularmente como "alucinaciones". Este se presenta en situaciones excepcionales, *edge cases*, cuando los *prompts* enviados al modelo contienen contenido poco común. En estas circunstancias, el modelo tiende a inventar nuevas categorías que podrían parecer más adecuadas para el texto, pero que introducen etiquetas que, en principio, no deberían existir en el conjunto de datos.
 
--   Por último, hay que tener en cuenta que los tiempos de inferencia son relativamente largos. Esto plantea desafíos de escalabilidad al usar este modelo como método de procesamiento, especialmente a medida que el conjunto de datos se expande.
+    Este aspecto se vincula con el primer punto: al implementar *pipelines* en sistemas de *machine learning* que utilizan *large language models*, es fundamental diseñar mecanismos que puedan corregir estos *outputs* inesperados de manera eficaz, garantizando así la robustez del sistema en su totalidad.
 
-Este estudio evidencia el emocionante cruce entre las ciencias de la computación y las ciencias sociales, y cómo esta intersección permite generar *insights* de eventos significativos a través de tecnologías avanzadas. Pese a los desafíos, el resultado es un conjunto de datos valiosos y un análisis significativo de las opiniones de los votantes sobre los candidatos presidenciales.
+-   Por último, encuentro que los tiempos de inferencia de GPT relativamente largos. Esto plantea desafíos de escalabilidad al usar este modelo como método de procesamiento, especialmente a medida que el conjunto de datos se expande.
+
+Esta entrada evidencia el emocionante cruce entre las ciencias de la computación y las ciencias sociales, y cómo esta intersección permite generar *insights* de eventos significativos a través de tecnologías avanzadas. Pese a los desafíos, el resultado es un conjunto de datos valiosos y un análisis de alto nivel acerca de las opiniones expresadas sobre los candidatos que compiten por ser el próximo presidente de Guatemala.
